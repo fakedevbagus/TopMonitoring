@@ -1,3 +1,6 @@
+<img width="1064" height="680" alt="lighttheme" src="https://github.com/user-attachments/assets/ae3c3249-69e1-4d8d-95bf-f841e25fb9cb" />
+<img width="1920" height="104" alt="dock" src="https://github.com/user-attachments/assets/6a92f60d-2f06-401e-b428-311eec81d4ea" />
+<img width="1066" height="698" alt="darktheme" src="https://github.com/user-attachments/assets/69fc692f-3802-4767-9224-43ca3260104d" />
 # Top Monitoring
 
 **Top Monitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
@@ -43,19 +46,9 @@ Designed for minimal distraction: always-on-top, compact, customizable, and fast
 
 ## 📸 Screenshots
 
-Add screenshots here:
-
-- `docs/screenshots/dock.png`
-- `docs/screenshots/settings-dark.png`
-- `docs/screenshots/settings-light.png`
-
-Example:
-
-```md
-![Dock](docs/screenshots/dock.png)
-![Settings Dark](docs/screenshots/settings-dark.png)
-![Settings Light](docs/screenshots/settings-light.png)
-```
+<img width="1920" height="104" alt="dock" src="https://github.com/user-attachments/assets/6a92f60d-2f06-401e-b428-311eec81d4ea" />
+<img width="1066" height="698" alt="darktheme" src="https://github.com/user-attachments/assets/69fc692f-3802-4767-9224-43ca3260104d" />
+<img width="1064" height="680" alt="lighttheme" src="https://github.com/user-attachments/assets/ae3c3249-69e1-4d8d-95bf-f841e25fb9cb" />
 
 ---
 

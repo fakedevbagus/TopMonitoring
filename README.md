@@ -70,8 +70,8 @@ Example:
 
 ### 1) Clone
 ```bash
-git clone https://github.com/fakedevbagus/Top-Monitoring.git
-cd Top-Monitoring
+git clone https://github.com/fakedevbagus/TopMonitoring.git
+cd TopMonitoring
 ```
 
 ### 2) Restore & Build

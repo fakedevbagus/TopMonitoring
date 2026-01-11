@@ -1,0 +1,156 @@
+# Top Monitoring
+
+**Top Monitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
+
+Designed for minimal distraction: always-on-top, compact, customizable, and fast.
+
+> Repo: https://github.com/fakedevbagus/Top-Monitoring
+
+---
+
+## ✨ Features
+
+### Overlay / Dock
+- **Always-on-top top dock** (overlay)
+- Transparent dock background support
+- **Fixed metric order** (MSI Afterburner-style layout)
+- Metric value alignment centered (clean look)
+- Auto N/A fallback when metric not available
+
+### Metrics (Real-time)
+- FPS *(depends on source / limitations explained below)*
+- CPU Load / Temp / Power
+- GPU Load / Temp / Power *(GPU power depends on hardware/driver)*
+- VRAM Used
+- RAM Used / RAM Free
+- Disk C / Disk E usage
+- Network (Down/Up)
+
+### Settings
+- **Dark/Light mode toggle**
+- Background color palette + **HEX input** (custom color)
+- Opacity slider with percentage indicator
+- Metric label renaming (prefix text)
+- **Enable/Disable metrics (realtime + autosaved)**
+- Metric order editor (Up/Down reorder)
+
+### Quality
+- Stable, optimized update loop
+- Autosave settings (no “Save” button needed)
+- Safe fallback: missing sensor = `N/A`
+
+---
+
+## 📸 Screenshots
+
+Add screenshots here:
+
+- `docs/screenshots/dock.png`
+- `docs/screenshots/settings-dark.png`
+- `docs/screenshots/settings-light.png`
+
+Example:
+
+```md
+![Dock](docs/screenshots/dock.png)
+![Settings Dark](docs/screenshots/settings-dark.png)
+![Settings Light](docs/screenshots/settings-light.png)
+```
+
+---
+
+## ✅ Requirements
+- Windows 10/11
+- .NET SDK 8 (for building from source)
+- LibreHardwareMonitor (already included as dependency)
+
+---
+
+## 🚀 Build & Run (Developer)
+
+### 1) Clone
+```bash
+git clone https://github.com/fakedevbagus/Top-Monitoring.git
+cd Top-Monitoring
+```
+
+### 2) Restore & Build
+```bash
+dotnet restore
+dotnet build -c Release
+```
+
+### 3) Run
+```bash
+dotnet run --project src/TopMonitoring.App -c Release
+```
+
+---
+
+## ⚙️ Configuration / Settings
+All settings are saved automatically (no manual save).
+
+Settings include:
+- Theme (Dark/Light)
+- Opacity
+- Background Color (palette + HEX)
+- Metric Labels (prefix)
+- Enabled metrics
+- Metric order
+
+---
+
+## 🧠 Notes / Limitations (Important)
+
+### FPS
+FPS is **not always reliable** because Windows does not provide a universal system-wide FPS counter by default.
+For accurate FPS like MSI Afterburner/RivaTuner, a dedicated overlay/hook method is required.
+
+### GPU Power
+GPU Power read depends on:
+- GPU model
+- driver support
+- exposed sensors from LibreHardwareMonitor
+
+Some GPUs may return N/A.
+
+---
+
+## ✅ Advantages
+- Lightweight WPF overlay
+- Clean centered UI layout
+- Fully customizable labels and ordering
+- Real-time enable/disable metrics
+- Dark/Light theme support
+- Autosave settings
+
+## ⚠️ Known Drawbacks
+- FPS accuracy depends on source availability
+- Some GPU metrics depend on vendor sensor availability
+- Only built for Windows (WPF)
+
+---
+
+## 🛠 Roadmap
+Planned improvements:
+- Export portable single-file `.exe` release (Publish)
+- Better FPS support (optional plugin / overlay integration)
+- Multi-monitor docking and edge snapping
+- Presets (Gaming / Work / Minimal)
+- Click-through mode
+
+---
+
+## 🤝 Contributing
+PRs and issues are welcome.
+Please:
+- use clear PR title
+- include screenshots for UI changes
+- keep code style consistent
+
+See: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
+## 📄 License
+MIT License — free to use, modify, and distribute.

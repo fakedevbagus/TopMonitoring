@@ -1,0 +1,21 @@
+name: Bug Report
+description: Report a bug or crash
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: Describe the bug
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Provide steps
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Logs / Screenshot
+      description: Attach any logs or screenshot

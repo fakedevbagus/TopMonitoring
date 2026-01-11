@@ -1,0 +1,28 @@
+<Window x:Class="TopMonitoring.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TopMonitoring" Height="24" Width="800"
+        Topmost="True" WindowStyle="None" ResizeMode="NoResize"
+        AllowsTransparency="True" Background="Transparent"
+        ShowInTaskbar="False">
+    <Border x:Name="RootBorder" CornerRadius="0" Padding="4,1" SnapsToDevicePixels="True">
+        <!-- DownOnly ensures text is only shrunk when needed, never enlarged -->
+        <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel x:Name="MetricsPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="FpsText"  Text="FPS --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="CpuLoadText" Text="CPU --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="CpuTempText" Text="CT --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="CpuPowerText" Text="CPW --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="GpuLoadText" Text="GPU --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="GpuTempText" Text="GT --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="GpuPowerText" Text="GPW --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="VramUsedText" Text="VRAM --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="RamUsedText" Text="RAM --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="RamFreeText" Text="FREE --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="DriveCText" Text="C --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="DriveEText" Text="E --" FontSize="11" Margin="4,0" Foreground="White"/>
+                <TextBlock x:Name="InternetText" Text="NET --" FontSize="11" Margin="4,0" Foreground="White"/>
+            </StackPanel>
+        </Viewbox>
+    </Border>
+</Window>

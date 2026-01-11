@@ -1,0 +1,1 @@
+Put your screenshots (dock.png, settings-dark.png, settings-light.png) in this folder.

@@ -1,3 +1,17 @@
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-10%2F11-0078D6?logo=windows&logoColor=white)
+![WPF](https://img.shields.io/badge/WPF-Desktop-5C2D91?logo=windows&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-Programming-239120?logo=csharp&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+![Stars](https://img.shields.io/github/stars/fakedevbagus/Top-Monitoring?style=flat)
+![Forks](https://img.shields.io/github/forks/fakedevbagus/Top-Monitoring?style=flat)
+![Issues](https://img.shields.io/github/issues/fakedevbagus/Top-Monitoring)
+![Last Commit](https://img.shields.io/github/last-commit/fakedevbagus/Top-Monitoring)
+
+![Build](https://github.com/fakedevbagus/Top-Monitoring/actions/workflows/dotnet.yml/badge.svg)
+
+---
 # Top Monitoring
 
 **Top Monitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.

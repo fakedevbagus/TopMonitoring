@@ -4,7 +4,7 @@
 
 Designed for minimal distraction: always-on-top, compact, customizable, and fast.
 
-> Repo: https://github.com/fakedevbagus/Top-Monitoring
+> Repo: https://github.com/fakedevbagus/TopMonitoring
 
 ---
 

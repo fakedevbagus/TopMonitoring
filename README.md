@@ -132,6 +132,7 @@ Some GPUs may return N/A.
 - FPS accuracy depends on source availability
 - Some GPU metrics depend on vendor sensor availability
 - Only built for Windows (WPF)
+- if you close the app and window other apps won't fullscreen after that, you should restart File Explorer in the taskbar     find File Explorer-right click-restart-done
 
 ---
 

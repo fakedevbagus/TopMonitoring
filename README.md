@@ -158,3 +158,5 @@ See: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## 📄 License
 MIT License — free to use, modify, and distribute.
+
+📚 Documentation: https://fakedevbagus.github.io/TopMonitoring/

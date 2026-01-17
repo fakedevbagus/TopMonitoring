@@ -32,7 +32,7 @@ namespace TopMonitoring.Monitoring
                 _gpu?.Update();
                 var temp = _gpu?.Sensors
                     .Where(s => s.SensorType == SensorType.Temperature)
-                    .OrderByDescending(s => s.Name.Contains("Hot Spot", StringComparison.OrdinalIgnoreCase))
+                    .OrderByDescending(s => s.Name.Contains("Core", StringComparison.OrdinalIgnoreCase) || s.Name.Contains("Package", StringComparison.OrdinalIgnoreCase))
                     .FirstOrDefault();
 
                 var val = temp?.Value;

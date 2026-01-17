@@ -23,7 +23,7 @@ Designed for minimal distraction: always-on-top, compact, customizable, and fast
 - GPU Load / Temp / Power *(GPU power depends on hardware/driver)*
 - VRAM Used
 - RAM Used / RAM Free
-- Disk C / Disk E usage
+- Disk usage
 - Network (Down/Up)
 
 ### Settings
@@ -83,7 +83,7 @@ All settings are saved automatically (no manual save).
 Settings include:
 - Theme (Dark/Light)
 - Opacity
-- Background Color (palette + HEX)
+- Background live picker color + HEX
 - Metric Labels (prefix)
 - Enabled metrics
 - Metric order
@@ -118,12 +118,12 @@ Some GPUs may return N/A.
 - FPS accuracy depends on source availability
 - Some GPU metrics depend on vendor sensor availability
 - Only built for Windows (WPF)
+- Fix bug when exit app need restart on taskbar to normalize window fullscreen
 
 ---
 
 ## 🛠 Roadmap
 Planned improvements:
-- Export portable single-file `.exe` release (Publish)
 - Better FPS support (optional plugin / overlay integration)
 - Multi-monitor docking and edge snapping
 - Presets (Gaming / Work / Minimal)

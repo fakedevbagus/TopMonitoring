@@ -19,7 +19,7 @@ namespace TopMonitoring.App
             _icon = new NotifyIcon
             {
                 Text = "TopMonitoring",
-                Icon = Icon.FromHandle(new Bitmap("Logo.png").GetHicon()),
+                Icon = new Icon("TopMonitoring.ico"),
                 Visible = true
             };
 

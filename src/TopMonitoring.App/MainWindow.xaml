@@ -4,7 +4,7 @@
         Title="TopMonitoring" Height="24" Width="800"
         Topmost="True" WindowStyle="None" ResizeMode="NoResize"
         AllowsTransparency="True" Background="Transparent"
-        ShowInTaskbar="False" Icon="Logo.png">
+        ShowInTaskbar="False" Icon="TopMonitoring.ico">
     <Border x:Name="RootBorder" CornerRadius="0" Padding="4,1" SnapsToDevicePixels="True">
         <!-- DownOnly ensures text is only shrunk when needed, never enlarged -->
         <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -14,7 +14,7 @@
 ---
 # Top Monitoring
 
-**Top Monitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
+**TopMonitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
 
 Designed for minimal distraction: always-on-top, compact, customizable, and fast.
 
@@ -42,7 +42,7 @@ Designed for minimal distraction: always-on-top, compact, customizable, and fast
 
 ### Settings
 - **Dark/Light mode toggle**
-- Background color palette + **HEX input** (custom color)
+- Background live picker color + **HEX input** (custom color)
 - Opacity slider with percentage indicator
 - Metric label renaming (prefix text)
 - **Enable/Disable metrics (realtime + autosaved)**
@@ -57,9 +57,7 @@ Designed for minimal distraction: always-on-top, compact, customizable, and fast
 
 ## 📸 Screenshots
 
-<img width="1920" height="104" alt="dock" src="https://github.com/user-attachments/assets/6a92f60d-2f06-401e-b428-311eec81d4ea" />
-<img width="1066" height="698" alt="darktheme" src="https://github.com/user-attachments/assets/69fc692f-3802-4767-9224-43ca3260104d" />
-<img width="1064" height="680" alt="lighttheme" src="https://github.com/user-attachments/assets/ae3c3249-69e1-4d8d-95bf-f841e25fb9cb" />
+-docs/screenshot
 
 ---
 
@@ -87,6 +85,8 @@ dotnet build -c Release
 ### 3) Run
 ```bash
 dotnet run --project src/TopMonitoring.App -c Release
+
+or download stable release zip extract and run TopMonitoring.exe (portable)
 ```
 
 ---
@@ -160,4 +160,9 @@ See: [CONTRIBUTING.md](CONTRIBUTING.md)
 ## 📄 License
 MIT License — free to use, modify, and distribute.
 
-📚 Documentation: https://fakedevbagus.github.io/TopMonitoring/
+See: [LICENSE](LICENSE)
+
+## 📋 Additional Information
+- [Changelog](CHANGELOG.md)
+- [Code of Conduct](CODE_OF_CONDUCT.MD)
+- [Security Policy](SECURITY.MD)

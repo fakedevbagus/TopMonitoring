@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using TopMonitoring.Infrastructure;
+using System.Windows.Forms;
 
 namespace TopMonitoring.App
 {
@@ -70,7 +71,6 @@ namespace TopMonitoring.App
             OpacitySlider.Value = current.UiOpacity;
             UpdateOpacityPct();
 
-            BuildPalette();
             HexText.Text = current.BackgroundHex;HexText.TextChanged += (_, __) =>
             {
                 if (_closing) return;
@@ -139,30 +139,6 @@ namespace TopMonitoring.App
         }
 
         private void UpdateOpacityPct() => OpacityPct.Text = $"{(int)(OpacitySlider.Value * 100)}%";
-
-        private void BuildPalette()
-        {
-            PalettePanel.Children.Clear();
-            foreach (var (hex, name) in _palette)
-            {
-                var btn = new System.Windows.Controls.Button
-                {
-                    Width = 32,
-                    Height = 22,
-                    Margin = new Thickness(4, 0, 4, 6),
-                    ToolTip = $"{name} ({hex})",
-                    Background = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString(hex)!
-                };
-                btn.Click += (_, __) =>
-                {
-                    if (_closing) return;
-                    Settings = Settings with { BackgroundHex = hex };
-                    HexText.Text = hex;
-                    _liveApply(Settings);
-                };
-                PalettePanel.Children.Add(btn);
-            }
-        }
 
         private void ApplyLabelsFromUI()
         {
@@ -367,6 +343,19 @@ namespace TopMonitoring.App
             _closing = true;
             try { _exitApp(); } catch { }
             try { Close(); } catch { }
+        }
+
+        private void PickColor_Click(object sender, RoutedEventArgs e)
+        {
+            using var dialog = new ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var color = System.Windows.Media.Color.FromRgb(dialog.Color.R, dialog.Color.G, dialog.Color.B);
+                HexText.Text = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+                // Update settings
+                Settings = Settings with { BackgroundHex = HexText.Text };
+                _liveApply(Settings);
+            }
         }
     }
 }

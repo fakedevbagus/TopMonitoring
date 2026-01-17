@@ -1,6 +1,6 @@
 # Top Monitoring
 
-**Top Monitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
+**TopMonitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
 
 Designed for minimal distraction: always-on-top, compact, customizable, and fast.
 
@@ -28,7 +28,7 @@ Designed for minimal distraction: always-on-top, compact, customizable, and fast
 
 ### Settings
 - **Dark/Light mode toggle**
-- Background color palette + **HEX input** (custom color)
+- Background live picker color + **HEX input** (custom color)
 - Opacity slider with percentage indicator
 - Metric label renaming (prefix text)
 - **Enable/Disable metrics (realtime + autosaved)**
@@ -43,19 +43,7 @@ Designed for minimal distraction: always-on-top, compact, customizable, and fast
 
 ## 📸 Screenshots
 
-Add screenshots here:
-
-- `docs/screenshots/dock.png`
-- `docs/screenshots/settings-dark.png`
-- `docs/screenshots/settings-light.png`
-
-Example:
-
-```md
-![Dock](docs/screenshots/dock.png)
-![Settings Dark](docs/screenshots/settings-dark.png)
-![Settings Light](docs/screenshots/settings-light.png)
-```
+-docs/screenshot
 
 ---
 
@@ -83,6 +71,8 @@ dotnet build -c Release
 ### 3) Run
 ```bash
 dotnet run --project src/TopMonitoring.App -c Release
+
+or download stable release zip extract and run TopMonitoring.exe (portable)
 ```
 
 ---

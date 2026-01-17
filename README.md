@@ -154,3 +154,10 @@ See: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## 📄 License
 MIT License — free to use, modify, and distribute.
+
+See: [LICENSE](LICENSE)
+
+## 📋 Additional Information
+- [Changelog](CHANGELOG.md)
+- [Code of Conduct](CODE_OF_CONDUCT.MD)
+- [Security Policy](SECURITY.MD)

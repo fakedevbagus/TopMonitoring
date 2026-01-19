@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0b0f19" />
+  <meta name="theme-color" content="#070a12" />
 
-  <title>fakedevbagus — Portfolio</title>
-  <meta name="description" content="Portfolio fakedevbagus. Creator of TopMonitoring — minimal top dock monitoring untuk Windows." />
+  <title>fakedevbagus — TopMonitoring (Portfolio)</title>
+  <meta name="description" content="Portfolio fakedevbagus. Creator of TopMonitoring — minimal top dock monitoring untuk Windows. Open-source project & active development." />
 
   <!-- Open Graph -->
   <meta property="og:title" content="fakedevbagus — TopMonitoring" />
-  <meta property="og:description" content="Minimal top dock monitoring untuk Windows. Open-source & fun project." />
+  <meta property="og:description" content="Minimal top dock monitoring untuk Windows. Open-source. Active development." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://fakedevbagus.me" />
-  <!-- Ganti og:image kalau kamu punya banner -->
-  <meta property="og:image" content="https://fakedevbagus.me/og.png" />
+  <meta property="og:image" content="https://fakedevbagus.me/assets/og.png" />
 
   <style>
     :root{
@@ -25,10 +24,12 @@
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.62);
       --muted2:rgba(255,255,255,.45);
+
       --brand:#7c5cff;
       --brand2:#39d98a;
       --warn:#ffcc66;
-      --shadow: 0 18px 40px rgba(0,0,0,.45);
+
+      --shadow: 0 18px 55px rgba(0,0,0,.5);
       --radius: 22px;
     }
 
@@ -38,63 +39,80 @@
       margin:0;
       font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
       color:var(--text);
-      background: radial-gradient(1000px 500px at 12% 10%, rgba(124,92,255,.16), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(57,217,138,.12), transparent 55%),
-                  radial-gradient(700px 500px at 40% 95%, rgba(255,204,102,.08), transparent 50%),
-                  var(--bg);
+      background:
+        radial-gradient(1000px 560px at 12% 10%, rgba(124,92,255,.16), transparent 60%),
+        radial-gradient(900px 520px at 90% 20%, rgba(57,217,138,.12), transparent 55%),
+        radial-gradient(700px 500px at 40% 95%, rgba(255,204,102,.08), transparent 50%),
+        var(--bg);
       overflow-x:hidden;
     }
 
     a{color:inherit;text-decoration:none}
-    .container{max-width:1120px;margin:0 auto;padding:28px 18px 70px}
+    .container{max-width:1160px;margin:0 auto;padding:28px 18px 80px}
     .nav{
       position:sticky; top:0; z-index:30;
       backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(7,10,18,.88), rgba(7,10,18,.65));
+      background: linear-gradient(to bottom, rgba(7,10,18,.90), rgba(7,10,18,.66));
       border-bottom:1px solid var(--border);
     }
-    .nav-inner{max-width:1120px;margin:0 auto; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .nav-inner{max-width:1160px;margin:0 auto; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:16px}
     .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+      display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.2px;
     }
-    .dot{
-      width:10px;height:10px;border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2)), var(--brand);
-      box-shadow: 0 0 0 6px rgba(124,92,255,.14);
+    .avatar{
+      width:34px;height:34px;border-radius:12px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+      background: rgba(255,255,255,.06);
     }
-    .nav-links{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .nav-links{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
     .pill{
       padding:9px 12px; border:1px solid var(--border); border-radius:999px;
-      color:var(--muted); font-weight:600; font-size:13px;
+      color:var(--muted); font-weight:700; font-size:13px;
       background: rgba(255,255,255,.02);
       transition: transform .15s ease, border-color .15s ease, background .15s ease;
     }
     .pill:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.04)}
     .pill.primary{
       color:#fff; border-color: rgba(124,92,255,.35);
-      background: linear-gradient(135deg, rgba(124,92,255,.25), rgba(57,217,138,.10));
+      background: linear-gradient(135deg, rgba(124,92,255,.25), rgba(57,217,138,.12));
     }
 
-    .hero{padding:56px 0 22px}
+    .dock-line{
+      height:3px; width:100%;
+      background: linear-gradient(90deg, transparent, rgba(124,92,255,.75), rgba(57,217,138,.70), transparent);
+      opacity:.65;
+    }
+
+    /* hero */
+    .hero{padding:44px 0 12px}
     .hero-grid{
-      display:grid; gap:18px;
-      grid-template-columns: 1.05fr .95fr;
+      display:grid; gap:16px;
+      grid-template-columns: 1.15fr .85fr;
       align-items:stretch;
     }
-    @media (max-width: 900px){
-      .hero-grid{grid-template-columns:1fr}
-    }
+    @media (max-width: 960px){.hero-grid{grid-template-columns:1fr}}
     .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
       border:1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
+      position:relative;
     }
-    .card-inner{padding:22px}
+    .card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(750px 380px at 25% 0%, rgba(124,92,255,.14), transparent 55%),
+                  radial-gradient(620px 320px at 90% 10%, rgba(57,217,138,.10), transparent 55%);
+      pointer-events:none;
+      opacity:.8;
+    }
+    .card-inner{padding:22px; position:relative}
     .kicker{
       display:inline-flex; gap:8px; align-items:center;
-      color: var(--muted); font-weight:700; font-size:12px; letter-spacing:.18em;
+      color: var(--muted); font-weight:900; font-size:12px; letter-spacing:.18em;
       text-transform: uppercase;
     }
     .kicker span{
@@ -103,16 +121,30 @@
     }
     h1{
       margin:12px 0 10px;
-      font-size: clamp(28px, 4vw, 44px);
-      line-height:1.08;
-      letter-spacing: -0.02em;
+      font-size: clamp(30px, 4.4vw, 52px);
+      line-height:1.04;
+      letter-spacing: -0.03em;
     }
     .lead{
       margin:0;
       color: var(--muted);
       font-size: 16px;
-      line-height:1.6;
+      line-height:1.65;
     }
+
+    .badge-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .badge{
+      font-size:12px;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.74);
+      background: rgba(255,255,255,.02);
+      font-weight:800;
+    }
+    .badge.good{border-color: rgba(57,217,138,.26); background: rgba(57,217,138,.08)}
+    .badge.warn{border-color: rgba(255,204,102,.26); background: rgba(255,204,102,.08)}
+    .badge.brand{border-color: rgba(124,92,255,.28); background: rgba(124,92,255,.09)}
+
     .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
     .btn{
       display:inline-flex; align-items:center; justify-content:center; gap:10px;
@@ -121,7 +153,7 @@
       border:1px solid var(--border);
       background: rgba(255,255,255,.03);
       color:#fff;
-      font-weight:700;
+      font-weight:900;
       font-size:14px;
       cursor:pointer;
       transition: transform .15s ease, background .15s ease, border-color .15s ease;
@@ -129,45 +161,31 @@
     .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.06)}
     .btn.primary{
       border-color: rgba(124,92,255,.45);
-      background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(57,217,138,.15));
+      background: linear-gradient(135deg, rgba(124,92,255,.40), rgba(57,217,138,.16));
     }
+    .btn.ghost{color:rgba(255,255,255,.88)}
     .btn.small{padding:9px 12px; border-radius:12px; font-size:13px}
+
+    .split{
+      display:grid; grid-template-columns: 1fr; gap:12px;
+    }
+
     .sep{height:1px;background: var(--border); margin:18px 0}
 
     .mono{
       font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
       font-size: 12.5px;
       color: rgba(255,255,255,.78);
-      background: rgba(0,0,0,.25);
+      background: rgba(0,0,0,.22);
       border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 12px 12px;
       overflow:auto;
-    }
-    .meta-grid{
-      display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px;
-      margin-top:14px
-    }
-    @media (max-width:520px){.meta-grid{grid-template-columns:1fr}}
-    .mini{
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.02);
-    }
-    .mini .title{font-weight:800}
-    .mini .desc{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.5}
-    .tag-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
-    .tag{
-      font-size:12px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.72);
-      background: rgba(255,255,255,.02);
+      white-space:pre;
     }
 
     /* sections */
-    section{margin-top:28px}
+    section{margin-top:26px}
     .section-title{
       font-size: 18px;
       letter-spacing:-.01em;
@@ -177,14 +195,54 @@
       display:grid; gap:12px;
       grid-template-columns: repeat(3, minmax(0,1fr));
     }
-    @media(max-width:900px){.grid-3{grid-template-columns:1fr}}
+    @media(max-width:960px){.grid-3{grid-template-columns:1fr}}
     .feature{
       padding:16px;border-radius:18px;border:1px solid var(--border);
       background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
     }
-    .feature b{display:block;margin-bottom:8px}
-    .feature p{margin:0;color:var(--muted);line-height:1.55;font-size:13.5px}
+    .feature b{display:block;margin-bottom:8px; letter-spacing:-.01em}
+    .feature p{margin:0;color:var(--muted);line-height:1.6;font-size:13.5px}
 
+    /* project cards */
+    .projects{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media(max-width:960px){.projects{grid-template-columns:1fr}}
+    .proj{
+      padding:18px;
+      border-radius: 20px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+    }
+    .proj-icon{
+      width:52px;height:52px;border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      flex: 0 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+    }
+    .proj-icon img{width:100%;height:100%;object-fit:cover;display:block}
+    .proj h3{margin:0;font-size:16px;letter-spacing:-.01em}
+    .proj p{margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.6}
+    .proj .row{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap}
+    .tag{
+      font-size:12px;padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color:rgba(255,255,255,.70);
+      font-weight:800;
+    }
+
+    /* timeline */
     .timeline{
       border:1px solid var(--border);
       border-radius: var(--radius);
@@ -193,39 +251,41 @@
     }
     .tl-row{
       display:grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: 170px 1fr;
       gap:0;
       border-bottom:1px solid var(--border);
     }
     .tl-row:last-child{border-bottom:none}
     .tl-date{
       padding:16px;
-      color: rgba(255,255,255,.65);
-      font-weight:800;
+      color: rgba(255,255,255,.66);
+      font-weight:900;
       background: rgba(0,0,0,.18);
       border-right:1px solid var(--border);
     }
     .tl-body{padding:16px}
     .tl-body b{display:block;margin-bottom:6px}
-    .tl-body p{margin:0;color:var(--muted);line-height:1.55;font-size:13.5px}
-    @media(max-width:720px){
+    .tl-body p{margin:0;color:var(--muted);line-height:1.6;font-size:13.5px}
+    @media(max-width:760px){
       .tl-row{grid-template-columns:1fr}
       .tl-date{border-right:none;border-bottom:1px solid var(--border)}
     }
 
+    /* footer */
     footer{
-      margin-top:44px;
+      margin-top:46px;
       color: var(--muted2);
       text-align:center;
       font-size: 13px;
       padding: 18px 0 0;
     }
+    .tiny{color:rgba(255,255,255,.55)}
 
-    /* subtle glow line (dock identity) */
-    .dock-line{
-      height:3px; width:100%;
-      background: linear-gradient(90deg, transparent, rgba(124,92,255,.65), rgba(57,217,138,.55), transparent);
-      opacity:.6;
+    /* small highlight line like the dock identity */
+    .glowline{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent);
+      margin: 14px 0;
     }
   </style>
 </head>
@@ -234,13 +294,20 @@
   <div class="nav">
     <div class="nav-inner">
       <div class="brand">
-        <div class="dot"></div>
-        <div>fakedevbagus</div>
+        <div class="avatar" title="GitHub Profile">
+          <img src="assets/github-avatar.png" alt="fakedevbagus profile logo" />
+        </div>
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,.66);font-weight:900;letter-spacing:.02em">PORTFOLIO</div>
+          <div style="font-size:16px;line-height:1.05">fakedevbagus</div>
+        </div>
       </div>
+
       <div class="nav-links">
+        <a class="pill" href="#top">Home</a>
         <a class="pill" href="#topmonitoring">TopMonitoring</a>
+        <a class="pill" href="#projects">Projects</a>
         <a class="pill" href="#journey">Journey</a>
-        <a class="pill" href="#stack">Stack</a>
         <a class="pill primary" href="#contact">Contact</a>
       </div>
     </div>
@@ -248,140 +315,211 @@
 
   <div class="dock-line"></div>
 
-  <main class="container">
+  <main class="container" id="top">
     <!-- HERO -->
     <div class="hero">
       <div class="hero-grid">
         <div class="card">
           <div class="card-inner">
-            <div class="kicker"><span></span>WINDOWS APP · OPEN SOURCE · PERSONAL PROJECT</div>
-            <h1>TopMonitoring<br/>minimal top dock monitoring</h1>
+            <div class="kicker"><span></span>WINDOWS · WPF · OPEN SOURCE</div>
+            <h1>TopMonitoring</h1>
             <p class="lead">
-              Aku bikin TopMonitoring untuk monitor kondisi PC secara cepat: FPS, CPU/GPU metrics, RAM, Drive, dan Network.
-              Terinspirasi dari Sidebar Diagnostics, tapi versi <b>atas layar</b> dan lebih minimal.
+              Minimal top dock monitoring untuk Windows.
+              Terinspirasi Sidebar Diagnostics, tapi versi <b>atas layar</b> yang lebih simple, cepat, dan clean.
+              Dibuat sebagai project belajar dari nol: debugging, refactor, UI, release, dan dokumentasi.
             </p>
 
+            <div class="badge-row">
+              <span class="badge brand">v1.1.0</span>
+              <span class="badge good">Active Development</span>
+              <span class="badge warn">Some sensors may require Admin</span>
+              <span class="badge">Portable</span>
+              <span class="badge">Tray Menu</span>
+            </div>
+
             <div class="cta-row">
-              <!-- Ganti repo url -->
-              <a class="btn primary" href="https://github.com/fakedevbagus/Top-Monitoring" target="_blank" rel="noreferrer">
-                ⭐ View GitHub Repo
+              <a class="btn primary" href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer">
+                ⭐ GitHub Repo
               </a>
-              <!-- Ganti release url -->
-              <a class="btn" href="https://github.com/fakedevbagus/Top-Monitoring/releases" target="_blank" rel="noreferrer">
-                ⬇️ Download Release
+              <a class="btn" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">
+                ⬇️ Releases
               </a>
-              <a class="btn" href="#journey">📌 Read the Journey</a>
+              <a class="btn ghost" href="#journey">📌 Project story</a>
             </div>
 
             <div class="sep"></div>
 
-            <div class="meta-grid">
-              <div class="mini">
-                <div class="title">Goal</div>
-                <div class="desc">Overlay monitor yang minimal, cepat dibaca, dan nyaman dipakai harian.</div>
-                <div class="tag-row">
-                  <span class="tag">Minimal UI</span>
-                  <span class="tag">Realtime Metrics</span>
-                  <span class="tag">Tray Control</span>
-                </div>
-              </div>
-              <div class="mini">
-                <div class="title">Status</div>
-                <div class="desc">Aktif dikembangkan. Fokus stabilitas sensor + kualitas UX.</div>
-                <div class="tag-row">
-                  <span class="tag">WPF .NET 8</span>
-                  <span class="tag">LibreHardwareMonitor</span>
-                  <span class="tag">Open Source</span>
-                </div>
-              </div>
+            <div class="mono">
+TopMonitoring highlights:
+• Dock 24px + transparansi
+• Dark/Light theme + live apply
+• Metric enable/disable + reorder
+• Rename label tiap metric
+• Tray icon menu (show/hide/settings/exit)
+• Config autosave (portable friendly)
+            </div>
+
+            <div class="glowline"></div>
+
+            <div class="tiny">
+              Pro-tip: untuk beberapa PC, sensor CPU Temp/Power bisa butuh Run as Administrator.
+              Website ini jadi landing resmi project TopMonitoring.
             </div>
           </div>
         </div>
 
-        <!-- Right card -->
         <div class="card">
           <div class="card-inner">
-            <div class="kicker"><span></span>PROJECT HIGHLIGHT</div>
-            <h2 style="margin:10px 0 10px;font-size:22px">What’s inside TopMonitoring</h2>
-            <div class="mono" aria-label="TopMonitoring features">
-• Dock top bar (24px) + transparansi
-• Dark/Light theme
-• Live apply settings (no save button)
-• Metric reorder + checkbox enable/disable
-• Label rename untuk tiap metric
-• Tray icon menu: show/hide/settings/exit
-• Auto saved config (portable friendly)
-            </div>
+            <div class="kicker"><span></span>DEVELOPER PROFILE</div>
 
-            <div style="margin-top:14px" class="tag-row">
-              <span class="tag">FPS</span>
-              <span class="tag">CPU Load/Temp/Power</span>
-              <span class="tag">GPU Load/Temp/Power</span>
-              <span class="tag">RAM</span>
-              <span class="tag">Drive</span>
-              <span class="tag">Internet</span>
+            <div style="display:flex; gap:14px; align-items:center; margin-top:10px">
+              <div class="proj-icon" style="width:88px;height:88px;border-radius:26px">
+                <img src="assets/github-avatar.png" alt="GitHub avatar logo" />
+              </div>
+              <div>
+                <div style="font-size:18px;font-weight:1000;letter-spacing:-.02em">fakedevbagus</div>
+                <div style="color:var(--muted);margin-top:6px;line-height:1.6;font-size:13.5px">
+                  Builder of small tools. Learning by shipping.
+                  Fokus ke project real biar belajar codingnya nggak teori doang.
+                </div>
+                <div class="row" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+                  <span class="tag">Windows Tools</span>
+                  <span class="tag">WPF</span>
+                  <span class="tag">Open Source</span>
+                </div>
+              </div>
             </div>
 
             <div class="sep"></div>
 
-            <div class="lead" style="font-size:14px">
-              Project ini juga jadi latihan buat aku belajar coding dari nol: debugging, refactor, UI WPF,
-              Git workflow (dev/main), release, dan docs.
+            <h2 style="margin:0 0 10px;font-size:18px;letter-spacing:-.01em">Why this portfolio?</h2>
+            <p class="lead" style="font-size:14px">
+              Karena aku pengen portfolio yang nyata: bukan cuma desain,
+              tapi bener-bener aplikasi yang dipakai harian, punya release, dan punya docs.
+            </p>
+
+            <div class="cta-row">
+              <a class="btn small primary" href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">GitHub Profile</a>
+              <a class="btn small" href="https://github.com/fakedevbagus/TopMonitoring/issues" target="_blank" rel="noreferrer">Report Bug</a>
+              <a class="btn small" href="https://github.com/fakedevbagus/TopMonitoring/discussions" target="_blank" rel="noreferrer">Discussions</a>
             </div>
+
+            <div class="sep"></div>
+
+            <div class="feature">
+              <b>Next step</b>
+              <p>
+                Fokus pengembangan selanjutnya: FPS realtime lebih stabil, sensor coverage makin luas,
+                UX settings makin rapih, dan packaging release makin profesional.
+              </p>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TopMonitoring details -->
+    <!-- TopMonitoring Overview -->
     <section id="topmonitoring">
       <h3 class="section-title">TopMonitoring — Overview</h3>
       <div class="grid-3">
         <div class="feature">
-          <b>Minimal & selalu terlihat</b>
-          <p>Dock ditempatkan di atas layar dengan tinggi kecil agar tidak ganggu workflow.</p>
+          <b>Minimal top dock</b>
+          <p>Dock tipis yang selalu terlihat, tidak makan space besar, dan mudah dibaca saat multitasking.</p>
         </div>
         <div class="feature">
           <b>Realtime metrics</b>
-          <p>Update cepat untuk memantau beban sistem, suhu, power, RAM, storage, dan network.</p>
+          <p>Monitoring CPU/GPU/RAM/Drive/Internet dengan update cepat dan layout konsisten.</p>
         </div>
         <div class="feature">
-          <b>UX yang simpel</b>
-          <p>Setting langsung apply tanpa tombol save. Mudah dipakai dan cepat dikontrol dari tray.</p>
+          <b>Live settings</b>
+          <p>Setting langsung apply: theme dark/light, opacity, warna background, urutan metric, dan label rename.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h3 class="section-title">Projects</h3>
+      <div class="projects">
+        <div class="proj">
+          <div class="proj-icon">
+            <img src="assets/app-logo.png" alt="App logo" />
+          </div>
+          <div>
+            <h3>TopMonitoring (Main Project)</h3>
+            <p>
+              Aplikasi monitoring minimal posisi atas layar. Fokus ke performa, UX, stabilitas, dan release yang rapi.
+              Project ini jadi bukti journey belajar coding + shipping.
+            </p>
+            <div class="row">
+              <span class="tag">WPF</span>
+              <span class="tag">.NET 8</span>
+              <span class="tag">LibreHardwareMonitor</span>
+              <span class="tag">Portable</span>
+            </div>
+            <div class="row">
+              <a class="btn small primary" href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer">Repo</a>
+              <a class="btn small" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Release</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-icon">
+            <img src="assets/github-avatar.png" alt="Brand logo" />
+          </div>
+          <div>
+            <h3>Open Source Journey</h3>
+            <p>
+              Fokus bukan hanya bikin aplikasi jadi, tapi bikin repo yang profesional:
+              docs bilingual, GitHub Pages, workflow dev/main, dan release notes.
+            </p>
+            <div class="row">
+              <span class="tag">Docs</span>
+              <span class="tag">GitHub Pages</span>
+              <span class="tag">Releases</span>
+              <span class="tag">Workflow</span>
+            </div>
+            <div class="row">
+              <a class="btn small primary" href="https://github.com/fakedevbagus/TopMonitoring/tree/main/docs" target="_blank" rel="noreferrer">Docs</a>
+              <a class="btn small" href="https://github.com/fakedevbagus/TopMonitoring/issues" target="_blank" rel="noreferrer">Issues</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Journey -->
     <section id="journey">
-      <h3 class="section-title">Journey</h3>
+      <h3 class="section-title">Journey — from prompt to release</h3>
       <div class="timeline">
         <div class="tl-row">
-          <div class="tl-date">Start</div>
+          <div class="tl-date">Idea</div>
           <div class="tl-body">
-            <b>Ide: butuh monitoring cepat tanpa app berat</b>
-            <p>Terinspirasi Sidebar Diagnostics, tapi ingin versi top bar yang minimal dan tidak makan space.</p>
+            <b>Sidebar Diagnostics → Top bar version</b>
+            <p>Butuh monitoring cepat yang minimal dan nggak makan space samping layar.</p>
           </div>
         </div>
         <div class="tl-row">
           <div class="tl-date">Debug Era</div>
           <div class="tl-body">
-            <b>Error marathon</b>
-            <p>Fix satu error muncul dua error lain. Belajar dependency, WPF issues, dan konflik namespace (Brush/Color/Button).</p>
+            <b>Error marathon + refactor</b>
+            <p>Dari konflik namespace (Brush/Color/Button), csproj WPF, sampai logic settings dan dock alignment.</p>
           </div>
         </div>
         <div class="tl-row">
           <div class="tl-date">Stabil</div>
           <div class="tl-body">
-            <b>Dock, settings, & theme</b>
-            <p>Dock dirapihin (24px), metrics urut sesuai kebutuhan, dark/light theme, live apply setting, dan autosave config.</p>
+            <b>Dock rapih + settings live</b>
+            <p>Dock 24px, urutan metric konsisten, rename label, enable/disable metric, dan autosave config.</p>
           </div>
         </div>
         <div class="tl-row">
           <div class="tl-date">Release</div>
           <div class="tl-body">
-            <b>GitHub ready</b>
-            <p>Repo dirapihin: README, release, docs bilingual, logo, dan tray icon + EXE publish.</p>
+            <b>EXE portable + docs bilingual</b>
+            <p>Rilis di GitHub, docs bilingual via /docs + GitHub Pages, logo & tray icon, workflow dev/main.</p>
           </div>
         </div>
       </div>
@@ -392,16 +530,16 @@
       <h3 class="section-title">Tech Stack</h3>
       <div class="grid-3">
         <div class="feature">
-          <b>App</b>
-          <p>WPF (.NET 8), MVVM-ish structure, Tray integration.</p>
+          <b>Desktop App</b>
+          <p>WPF (.NET 8), tray integration, window docking top bar UI.</p>
         </div>
         <div class="feature">
-          <b>Monitoring</b>
-          <p>LibreHardwareMonitor (shared context), metric providers modular.</p>
+          <b>Hardware Monitoring</b>
+          <p>LibreHardwareMonitor, shared context, warmup update untuk sensor coverage lebih stabil.</p>
         </div>
         <div class="feature">
-          <b>Workflow</b>
-          <p>GitHub (dev/main), releases, docs (/docs + GitHub Pages).</p>
+          <b>Open Source Workflow</b>
+          <p>GitHub Releases, docs bilingual, GitHub Pages, issues/discussions untuk komunitas.</p>
         </div>
       </div>
     </section>
@@ -412,20 +550,18 @@
       <div class="card">
         <div class="card-inner">
           <p class="lead" style="margin:0 0 14px">
-            Mau testing, kasih saran, atau diskusi project? Feel free reach out.
+            Mau testing TopMonitoring? nemu bug? atau mau request fitur? Gas langsung ke GitHub.
           </p>
           <div class="cta-row">
-            <!-- ganti sosial kalau perlu -->
             <a class="btn primary" href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="btn" href="https://github.com/fakedevbagus/Top-Monitoring/issues" target="_blank" rel="noreferrer">Open an Issue</a>
+            <a class="btn" href="https://github.com/fakedevbagus/TopMonitoring/issues" target="_blank" rel="noreferrer">Open an Issue</a>
             <a class="btn" href="mailto:hello@fakedevbagus.me">Email</a>
           </div>
           <div class="sep"></div>
-          <div class="mono">
-Domain: fakedevbagus.me
+          <div class="mono">Domain: fakedevbagus.me
 Project highlight: TopMonitoring
-Status: actively developed
-          </div>
+Release: v1.1.0
+Theme: Dark Professional</div>
         </div>
       </div>
     </section>

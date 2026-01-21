@@ -1,17 +1,3 @@
-![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-10%2F11-0078D6?logo=windows&logoColor=white)
-![WPF](https://img.shields.io/badge/WPF-Desktop-5C2D91?logo=windows&logoColor=white)
-![C#](https://img.shields.io/badge/C%23-Programming-239120?logo=csharp&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-
-![Stars](https://img.shields.io/github/stars/fakedevbagus/Top-Monitoring?style=flat)
-![Forks](https://img.shields.io/github/forks/fakedevbagus/Top-Monitoring?style=flat)
-![Issues](https://img.shields.io/github/issues/fakedevbagus/Top-Monitoring)
-![Last Commit](https://img.shields.io/github/last-commit/fakedevbagus/Top-Monitoring)
-
-![Build](https://github.com/fakedevbagus/Top-Monitoring/actions/workflows/dotnet.yml/badge.svg)
-
----
 # Top Monitoring
 
 **TopMonitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
@@ -37,7 +23,7 @@ Designed for minimal distraction: always-on-top, compact, customizable, and fast
 - GPU Load / Temp / Power *(GPU power depends on hardware/driver)*
 - VRAM Used
 - RAM Used / RAM Free
-- Disk C / Disk E usage
+- Disk usage
 - Network (Down/Up)
 
 ### Settings
@@ -97,7 +83,7 @@ All settings are saved automatically (no manual save).
 Settings include:
 - Theme (Dark/Light)
 - Opacity
-- Background Color (palette + HEX)
+- Background live picker color + HEX
 - Metric Labels (prefix)
 - Enabled metrics
 - Metric order
@@ -132,13 +118,12 @@ Some GPUs may return N/A.
 - FPS accuracy depends on source availability
 - Some GPU metrics depend on vendor sensor availability
 - Only built for Windows (WPF)
-- if you close the app and window other apps won't fullscreen after that, you should restart File Explorer in the taskbar     find the File Explorer-right click-restart-done
+- Fix bug when exit app need restart on taskbar to normalize window fullscreen
 
 ---
 
 ## 🛠 Roadmap
 Planned improvements:
-- Export portable single-file `.exe` release (Publish)
 - Better FPS support (optional plugin / overlay integration)
 - Multi-monitor docking and edge snapping
 - Presets (Gaming / Work / Minimal)

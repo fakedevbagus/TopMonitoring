@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="fakedevbagus — TopMonitoring v1.1.0, a minimal top dock performance monitor for Windows built with WPF/.NET 8. Premium portfolio and product page with roadmap, releases, and open-source links.">
+    <meta name="keywords" content="TopMonitoring, WPF, .NET 8, Windows, performance monitor, open source, fakedevbagus">
+    <meta property="og:title" content="TopMonitoring — Minimal Top Dock Monitoring for Windows">
+    <meta property="og:description" content="Premium landing for TopMonitoring v1.1.0: open-source WPF/.NET 8 top dock monitor with portable config and live settings.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fakedevbagus.me/">
+    <meta property="og:image" content="/assets/og.png">
+    <meta name="theme-color" content="#0b0d12">
+    <title>TopMonitoring — fakedevbagus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #05060a;
+            --card: rgba(16, 20, 31, 0.75);
+            --glass: rgba(255, 255, 255, 0.04);
+            --stroke: rgba(255, 255, 255, 0.08);
+            --text: #e9ecf5;
+            --muted: #9aa3b5;
+            --accent: #9d7bff;
+            --accent-2: #4be2b5;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+            --radius: 16px;
+            --gradient: radial-gradient(circle at 20% 20%, rgba(157, 123, 255, 0.28), transparent 35%),
+                         radial-gradient(circle at 80% 0%, rgba(75, 226, 181, 0.24), transparent 30%),
+                         linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+            --dock-line: linear-gradient(90deg, rgba(157,123,255,0.9), rgba(75,226,181,0.9));
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: var(--gradient), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-size: cover, 220px 220px;
+            line-height: 1.6;
+        }
+        ::selection { background: rgba(157,123,255,0.35); }
+        img { max-width: 100%; display: block; }
+        a { color: inherit; text-decoration: none; }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(14px);
+            background: rgba(5,6,10,0.82);
+            border-bottom: 1px solid var(--stroke);
+        }
+        .nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+        .brand img {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: linear-gradient(135deg, rgba(157,123,255,0.35), rgba(75,226,181,0.35));
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: var(--shadow);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+        nav a {
+            padding: 8px 12px;
+            border-radius: 12px;
+            color: var(--text);
+            font-weight: 500;
+            border: 1px solid transparent;
+            transition: all 180ms ease;
+        }
+        nav a:hover { border-color: rgba(255,255,255,0.12); color: #fff; }
+        .cta-primary, .cta-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.12);
+            transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+        }
+        .cta-primary {
+            background: linear-gradient(120deg, rgba(157,123,255,0.8), rgba(75,226,181,0.85));
+            color: #0b0d12;
+            box-shadow: 0 15px 35px rgba(157,123,255,0.35);
+        }
+        .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 22px 40px rgba(157,123,255,0.35); }
+        .cta-ghost { background: rgba(255,255,255,0.03); color: var(--text); }
+        .cta-ghost:hover { transform: translateY(-2px); border-color: rgba(75,226,181,0.4); box-shadow: 0 14px 30px rgba(75,226,181,0.2); }
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 20px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 72px;
+        }
+        .dock-line {
+            height: 3px;
+            width: 120px;
+            background: var(--dock-line);
+            border-radius: 999px;
+            box-shadow: 0 0 16px rgba(157,123,255,0.45);
+            margin-bottom: 18px;
+        }
+        .hero {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+        .eyebrow { color: var(--muted); font-weight: 600; letter-spacing: 0.4px; }
+        h1 {
+            font-size: clamp(32px, 6vw, 52px);
+            margin: 10px 0 14px;
+            line-height: 1.1;
+        }
+        h1 .accent { background: linear-gradient(120deg, #d6c4ff, #7cf1cf); -webkit-background-clip: text; color: transparent; }
+        .subtitle { color: #c8cede; font-size: 18px; margin-bottom: 22px; max-width: 640px; }
+        .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+        .pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            color: #dce2f0;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 180ms ease, transform 180ms ease;
+        }
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(157,123,255,0.1), rgba(75,226,181,0.08));
+            opacity: 0;
+            transition: opacity 180ms ease;
+            pointer-events: none;
+        }
+        .card:hover { border-color: rgba(157,123,255,0.4); transform: translateY(-2px); }
+        .card:hover::after { opacity: 1; }
+        .hero-visual {
+            position: relative;
+            padding: 22px;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0)), rgba(12,15,21,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .hero-visual .glow {
+            position: absolute;
+            inset: 20% 10%;
+            background: radial-gradient(circle at 50% 50%, rgba(157,123,255,0.25), transparent 50%);
+            filter: blur(40px);
+            z-index: 0;
+        }
+        .hero-visual img {
+            width: 100px;
+            height: 100px;
+            border-radius: 22px;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.14);
+            position: relative;
+            z-index: 1;
+        }
+        .hero-visual .identity { display: flex; align-items: center; gap: 16px; position: relative; z-index: 1; }
+        .hero-visual .meta { margin-top: 16px; color: var(--muted); font-size: 14px; }
+        .section-title { font-size: 24px; margin: 0 0 12px; }
+        .grid { display: grid; gap: 18px; }
+        .grid.two { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grid.three { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        .timeline { position: relative; padding-left: 18px; }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 4px;
+            top: 6px;
+            bottom: 6px;
+            width: 2px;
+            background: var(--dock-line);
+            border-radius: 999px;
+            opacity: 0.8;
+        }
+        .timeline-item { margin-bottom: 16px; position: relative; }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9d7bff, #4be2b5);
+            box-shadow: 0 0 12px rgba(157,123,255,0.4);
+        }
+        .pill.badge-ghost { background: rgba(255,255,255,0.05); }
+        .callout { margin-top: 14px; padding: 12px 14px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.18); background: rgba(255,255,255,0.02); color: #e6d7ff; }
+        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .project-card img { width: 72px; height: 72px; border-radius: 18px; object-fit: cover; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 18px 0; }
+        .release-box { border-left: 3px solid rgba(157,123,255,0.7); padding-left: 16px; }
+        .footer { margin-top: 40px; padding: 20px; color: var(--muted); text-align: center; border-top: 1px solid rgba(255,255,255,0.08); }
+        .screenshot-placeholder { height: 200px; border-radius: var(--radius); border: 1px dashed rgba(255,255,255,0.18); background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0)); display: grid; place-items: center; color: var(--muted); }
+        .noise-overlay { position: fixed; inset: 0; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)' opacity='0.03'/%3E%3C/svg%3E"); z-index: 1; mix-blend-mode: soft-light; }
+        .section { position: relative; z-index: 2; }
+        .reveal { opacity: 0; transform: translateY(16px); transition: opacity 320ms ease, transform 320ms ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        @media (max-width: 720px) {
+            .nav { flex-wrap: wrap; }
+            nav ul { width: 100%; justify-content: flex-start; }
+            .hero { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+            .reveal { opacity: 1 !important; transform: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <header>
+        <div class="nav">
+            <div class="brand">
+                <img src="/assets/github-avatar.png" alt="fakedevbagus avatar" onerror="this.style.opacity='0.35'; this.style.background='rgba(157,123,255,0.18)';">
+                <span>fakedevbagus</span>
+            </div>
+            <nav aria-label="Primary">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#product">Product</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="#docs">Docs</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page" id="home">
+        <section class="hero section reveal" aria-labelledby="hero-title">
+            <div>
+                <div class="dock-line" aria-hidden="true"></div>
+                <p class="eyebrow">fakedevbagus.me · Windows performance craft</p>
+                <h1 id="hero-title">TopMonitoring — <span class="accent">Minimal Top Dock Monitoring for Windows</span></h1>
+                <p class="subtitle">A sleek, 24px top dock that keeps CPU, GPU, RAM, disk, network, FPS, and temps in view. Built in WPF/.NET 8, tuned for minimal distraction and instant settings.</p>
+                <div class="badge-row" aria-label="Tech and release badges">
+                    <span class="pill">v1.1.0</span>
+                    <span class="pill">WPF / .NET 8</span>
+                    <span class="pill">LibreHardwareMonitor</span>
+                    <span class="pill">Portable</span>
+                    <span class="pill">Open Source</span>
+                </div>
+                <div class="badge-row" aria-label="Primary calls to action">
+                    <a class="cta-primary" href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer">GitHub Repo</a>
+                    <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Releases</a>
+                    <a class="cta-ghost" href="#docs">Read Docs</a>
+                    <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/issues/new" target="_blank" rel="noreferrer">Report Issue</a>
+                </div>
+            </div>
+            <div class="hero-visual" role="presentation">
+                <span class="glow"></span>
+                <div class="identity">
+                    <img src="/assets/first-app-logo.png" alt="TopMonitoring logo" onerror="this.style.opacity='0.4';">
+                    <div>
+                        <p class="eyebrow">TopMonitoring v1.1.0</p>
+                        <h3 style="margin:6px 0 4px;">Focused telemetry without clutter</h3>
+                        <p class="meta">Built for creators and gamers who want a thin, always-visible dock inspired by Sidebar Diagnostics but refined for the top edge.</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <p class="meta">Defaults stay slim: 24px height, single-line metrics, portable config folder, and a tray icon to keep out of the way.</p>
+            </div>
+        </section>
+
+        <section id="product" class="section reveal">
+            <h2 class="section-title">Featured Product · TopMonitoring</h2>
+            <div class="grid two">
+                <article class="card">
+                    <h3 style="margin-top:0;">Product Highlights</h3>
+                    <ul style="margin: 12px 0 0 18px; color: var(--muted);">
+                        <li>24px minimal top dock with crisp typography</li>
+                        <li>Instant apply settings—no restart required</li>
+                        <li>Metric reorder and toggle visibility per user</li>
+                        <li>Rename labels to match your mental model</li>
+                        <li>Tray icon control; hide when capturing screens</li>
+                        <li>Portable config folder for sync-friendly setup</li>
+                    </ul>
+                    <div class="callout">Known limitation: Some sensors may require Administrator permissions due to hardware access rules.</div>
+                </article>
+                <article class="card">
+                    <h3 style="margin-top:0;">Release Snapshot</h3>
+                    <div class="release-box">
+                        <p><strong>v1.1.0</strong> — Stability pass, tray refinements, better GPU/CPU readings.</p>
+                        <p style="color: var(--muted);">Built with WPF/.NET 8, powered by LibreHardwareMonitor for reliable sensors.</p>
+                    </div>
+                    <div class="divider"></div>
+                    <p style="margin:0;">Planned <strong>v1.2.0</strong> (preview): richer FPS source, fan curve visibility, per-display scaling polish, smoother transitions.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section reveal" id="showcase">
+            <h2 class="section-title">Problem → Solution</h2>
+            <div class="grid two">
+                <div class="card">
+                    <h4>Problem</h4>
+                    <p style="color: var(--muted);">Sidebar Diagnostics was my go-to, but I wanted a slim top-edge dock with less visual noise, better hot-plug resilience, and instant tweaks without relaunching.</p>
+                </div>
+                <div class="card">
+                    <h4>Solution</h4>
+                    <p style="color: var(--muted);">TopMonitoring ships a 24px strip that hugs the top of the screen. Metrics reorder on the fly, labels rename instantly, and settings save to a portable folder so the setup follows you.</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top:14px;">
+                <h4>Developer journey</h4>
+                <p style="color: var(--muted);">I started with zero coding knowledge and iterated nightly, learning WPF, XAML, and LibreHardwareMonitor APIs. Each release folded user feedback into a calmer UI, better defaults, and a tray workflow that respects creators recording or streaming.</p>
+            </div>
+        </section>
+
+        <section class="section reveal" id="features">
+            <h2 class="section-title">Feature Highlights</h2>
+            <div class="grid three">
+                <div class="card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="2"></rect><path d="M7 15h10M7 19h6"></path></svg>
+                    </div>
+                    <h4>Minimal Dock</h4>
+                    <p style="color: var(--muted);">24px tall strip with precise spacing and readable metrics for any display density.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                    </div>
+                    <h4>Live Settings</h4>
+                    <p style="color: var(--muted);">Changes apply instantly—no app restart when toggling sensors or renaming labels.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <h4>Metric Order</h4>
+                    <p style="color: var(--muted);">Reorder CPU/GPU/RAM/FPS/disk/network to fit your monitoring habits.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h10"/><path d="M4 18h7"/></svg>
+                    </div>
+                    <h4>Theme Control</h4>
+                    <p style="color: var(--muted);">Dark-first design with light-ready palette; keeps contrast for overlays and recording.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v4H4z"/><path d="M7 10v8"/><path d="M17 10v8"/><path d="M10 18h4"/></svg>
+                    </div>
+                    <h4>Tray Menu</h4>
+                    <p style="color: var(--muted);">Quick hide/show, refresh sensors, and exit without disturbing your layout.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5"/><path d="M12 12v9"/><path d="M12 12L4 7.5"/></svg>
+                    </div>
+                    <h4>Portable Config</h4>
+                    <p style="color: var(--muted);">Keep settings in a portable folder so your dock feels identical across PCs.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>
+                    </div>
+                    <h4>Open Source Docs</h4>
+                    <p style="color: var(--muted);">Transparent roadmap, issues, and community-driven improvements on GitHub.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal" id="projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects">
+                <article class="card project-card">
+                    <div style="display:flex; align-items:center; gap:14px;">
+                        <img src="/assets/first-app-logo.png" alt="TopMonitoring logo" onerror="this.style.opacity='0.4';">
+                        <div>
+                            <h4 style="margin:0;">TopMonitoring</h4>
+                            <p style="color: var(--muted); margin:4px 0 0;">WPF/.NET 8 top dock monitor for Windows. Built for clarity and low friction.</p>
+                        </div>
+                    </div>
+                    <div class="chips">
+                        <span class="pill badge-ghost">WPF</span>
+                        <span class="pill badge-ghost">LibreHardwareMonitor</span>
+                        <span class="pill badge-ghost">Portable</span>
+                    </div>
+                    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                        <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer">View Repo</a>
+                        <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Download</a>
+                    </div>
+                </article>
+                <article class="card project-card">
+                    <div style="display:flex; align-items:center; gap:14px;">
+                        <img src="/assets/github-avatar.png" alt="fakedevbagus avatar" onerror="this.style.opacity='0.4';">
+                        <div>
+                            <h4 style="margin:0;">Open Source Journey</h4>
+                            <p style="color: var(--muted); margin:4px 0 0;">Documenting learnings from zero-to-ship: code notes, UX patterns, and sensor debugging stories.</p>
+                        </div>
+                    </div>
+                    <div class="chips">
+                        <span class="pill badge-ghost">Docs</span>
+                        <span class="pill badge-ghost">Community</span>
+                        <span class="pill badge-ghost">Issues</span>
+                    </div>
+                    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                        <a class="cta-ghost" href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">Profile</a>
+                        <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/discussions" target="_blank" rel="noreferrer">Discussions</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section reveal" id="roadmap">
+            <h2 class="section-title">Roadmap</h2>
+            <div class="grid two">
+                <div class="card timeline">
+                    <div class="timeline-item">
+                        <h4>Now</h4>
+                        <ul style="color: var(--muted); margin: 6px 0 0 18px;">
+                            <li>Sensor stability and crash-proof startup</li>
+                            <li>Tray UX polish and shortcuts</li>
+                            <li>Low overhead rendering pass</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Next</h4>
+                        <ul style="color: var(--muted); margin: 6px 0 0 18px;">
+                            <li>FPS source improvements for more engines</li>
+                            <li>Fan RPM visibility + warnings</li>
+                            <li>Per-display scaling refinements</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Future</h4>
+                        <ul style="color: var(--muted); margin: 6px 0 0 18px;">
+                            <li>Sensor expansion (VRAM, hotspot temps)</li>
+                            <li>Profiles for creator vs gaming layouts</li>
+                            <li>Optional telemetry export hooks</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card" id="docs">
+                    <h4>Docs & Changelog</h4>
+                    <p style="color: var(--muted);">Readme covers install, settings, and sensor notes. Releases detail fixes and pitfalls with hardware sensors.</p>
+                    <div class="chips">
+                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring#readme" target="_blank" rel="noreferrer">Docs</a>
+                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Changelog</a>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="screenshot-placeholder">Screenshots / demo video placeholder</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal" id="community">
+            <h2 class="section-title">Open Source & Community</h2>
+            <div class="grid two">
+                <div class="card">
+                    <h4>Contribute</h4>
+                    <p style="color: var(--muted);">Issues and discussions are open. Reproduce a bug, request sensors, or propose UI polish. Every insight makes the dock calmer.</p>
+                    <div class="chips">
+                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/issues" target="_blank" rel="noreferrer">Issues</a>
+                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/discussions" target="_blank" rel="noreferrer">Discussions</a>
+                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/pulls" target="_blank" rel="noreferrer">Pull Requests</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Principles</h4>
+                    <p style="color: var(--muted);">Minimal footprint, reliable sensors, instant feedback, respectful defaults for creators recording screens.</p>
+                    <p style="color: var(--muted);">If you spot a hardware edge case, open an issue with logs so we can harden the next build.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section reveal" id="contact">
+            <h2 class="section-title">Contact</h2>
+            <div class="card">
+                <p style="margin:0;">Let's talk sensors, UI, or Windows telemetry UX.</p>
+                <div class="chips">
+                    <a class="pill" href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">GitHub</a>
+                    <a class="pill" href="mailto:hello@fakedevbagus.me">Email</a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            © 2026 fakedevbagus · TopMonitoring · Crafted with WPF/.NET 8 and LibreHardwareMonitor
+        </footer>
+    </main>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        reveals.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+

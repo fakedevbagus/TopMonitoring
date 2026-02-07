@@ -3,561 +3,1355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="fakedevbagus — TopMonitoring v1.1.0, a minimal top dock performance monitor for Windows built with WPF/.NET 8. Premium portfolio and product page with roadmap, releases, and open-source links.">
-    <meta name="keywords" content="TopMonitoring, WPF, .NET 8, Windows, performance monitor, open source, fakedevbagus">
-    <meta property="og:title" content="TopMonitoring — Minimal Top Dock Monitoring for Windows">
-    <meta property="og:description" content="Premium landing for TopMonitoring v1.1.0: open-source WPF/.NET 8 top dock monitor with portable config and live settings.">
+    <meta name="description" content="fakedevbagus — Personal product lab building monitoring tools, system apps, and experimental tech projects.">
+    <meta name="keywords" content="fakedevbagus, TopMonitoring, monitoring tools, system apps, developer portfolio, open source">
+    <meta property="og:title" content="fakedevbagus — Building Modern Tools for Real-World Systems">
+    <meta property="og:description" content="Personal product lab focused on monitoring, system tools, and experimental tech projects.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fakedevbagus.me/">
     <meta property="og:image" content="/assets/og.png">
-    <meta name="theme-color" content="#0b0d12">
-    <title>TopMonitoring — fakedevbagus</title>
+    <meta name="theme-color" content="#0a0e1a">
+    <title>fakedevbagus — Building Modern Tools</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #05060a;
-            --card: rgba(16, 20, 31, 0.75);
-            --glass: rgba(255, 255, 255, 0.04);
-            --stroke: rgba(255, 255, 255, 0.08);
-            --text: #e9ecf5;
-            --muted: #9aa3b5;
-            --accent: #9d7bff;
-            --accent-2: #4be2b5;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-            --radius: 16px;
-            --gradient: radial-gradient(circle at 20% 20%, rgba(157, 123, 255, 0.28), transparent 35%),
-                         radial-gradient(circle at 80% 0%, rgba(75, 226, 181, 0.24), transparent 30%),
-                         linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
-            --dock-line: linear-gradient(90deg, rgba(157,123,255,0.9), rgba(75,226,181,0.9));
+            --bg-deep: #050810;
+            --bg-dark: #0a0e1a;
+            --bg-card: rgba(15, 20, 35, 0.7);
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(99, 102, 241, 0.4);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #6366f1;
+            --accent-purple: #a855f7;
+            --accent-cyan: #22d3ee;
+            --gradient-primary: linear-gradient(135deg, #6366f1, #a855f7);
+            --gradient-glow: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.4));
+            --gradient-subtle: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.08));
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
         }
 
-        * { box-sizing: border-box; }
-        body {
+        * {
             margin: 0;
-            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            background-image: var(--gradient), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-            background-size: cover, 220px 220px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
             line-height: 1.6;
+            overflow-x: hidden;
         }
-        ::selection { background: rgba(157,123,255,0.35); }
-        img { max-width: 100%; display: block; }
-        a { color: inherit; text-decoration: none; }
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            backdrop-filter: blur(14px);
-            background: rgba(5,6,10,0.82);
-            border-bottom: 1px solid var(--stroke);
+
+        /* Background Effects */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% -10%, rgba(99, 102, 241, 0.15), transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(168, 85, 247, 0.12), transparent 45%),
+                radial-gradient(ellipse 50% 30% at 50% 90%, rgba(34, 211, 238, 0.08), transparent 40%);
+            pointer-events: none;
+            z-index: 0;
         }
-        .nav {
-            max-width: 1100px;
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 14px 20px;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(5, 8, 16, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 18px;
+            padding: 16px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
+
         .brand {
             display: flex;
             align-items: center;
             gap: 12px;
             font-weight: 700;
-            letter-spacing: 0.2px;
+            font-size: 18px;
+            color: var(--text-primary);
+            text-decoration: none;
         }
-        .brand img {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            object-fit: cover;
-            background: linear-gradient(135deg, rgba(157,123,255,0.35), rgba(75,226,181,0.35));
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: var(--shadow);
-        }
-        nav ul {
-            list-style: none;
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--gradient-primary);
             display: flex;
             align-items: center;
-            gap: 18px;
-            padding: 0;
-            margin: 0;
-            flex-wrap: wrap;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
         }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
         nav a {
-            padding: 8px 12px;
-            border-radius: 12px;
-            color: var(--text);
+            padding: 10px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
             font-weight: 500;
-            border: 1px solid transparent;
-            transition: all 180ms ease;
+            font-size: 14px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
         }
-        nav a:hover { border-color: rgba(255,255,255,0.12); color: #fff; }
-        .cta-primary, .cta-ghost {
+
+        nav a:hover {
+            color: var(--text-primary);
+            background: var(--bg-glass);
+        }
+
+        .nav-cta {
+            background: var(--gradient-primary) !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Buttons */
+        .btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 18px;
-            border-radius: 14px;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
             font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.25s ease;
             cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.12);
-            transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+            border: none;
         }
-        .cta-primary {
-            background: linear-gradient(120deg, rgba(157,123,255,0.8), rgba(75,226,181,0.85));
-            color: #0b0d12;
-            box-shadow: 0 15px 35px rgba(157,123,255,0.35);
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.35);
         }
-        .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 22px 40px rgba(157,123,255,0.35); }
-        .cta-ghost { background: rgba(255,255,255,0.03); color: var(--text); }
-        .cta-ghost:hover { transform: translateY(-2px); border-color: rgba(75,226,181,0.4); box-shadow: 0 14px 30px rgba(75,226,181,0.2); }
-        .page {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 48px 20px 80px;
-            display: flex;
-            flex-direction: column;
-            gap: 72px;
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.45);
         }
-        .dock-line {
-            height: 3px;
-            width: 120px;
-            background: var(--dock-line);
-            border-radius: 999px;
-            box-shadow: 0 0 16px rgba(157,123,255,0.45);
-            margin-bottom: 18px;
+
+        .btn-secondary {
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
         }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
         .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+        }
+
+        .hero-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
         }
-        .eyebrow { color: var(--muted); font-weight: 600; letter-spacing: 0.4px; }
-        h1 {
-            font-size: clamp(32px, 6vw, 52px);
-            margin: 10px 0 14px;
-            line-height: 1.1;
-        }
-        h1 .accent { background: linear-gradient(120deg, #d6c4ff, #7cf1cf); -webkit-background-clip: text; color: transparent; }
-        .subtitle { color: #c8cede; font-size: 18px; margin-bottom: 22px; max-width: 640px; }
-        .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-        .pill {
-            padding: 8px 12px;
-            border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.03);
-            color: #dce2f0;
-            font-size: 14px;
+
+        .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
         }
-        .card {
-            background: var(--card);
-            border: 1px solid var(--stroke);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 22px;
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 5vw, 56px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            max-width: 520px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Dashboard Mockup */
+        .dashboard-mockup {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .dashboard-mockup::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-xl);
+            background: var(--gradient-glow);
+            opacity: 0.3;
+            z-index: -1;
+            filter: blur(20px);
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dashboard-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dashboard-dot.red { background: #ef4444; }
+        .dashboard-dot.yellow { background: #eab308; }
+        .dashboard-dot.green { background: #22c55e; }
+
+        .dashboard-title {
+            margin-left: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .dashboard-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .metric-value.accent { color: var(--accent-blue); }
+        .metric-value.purple { color: var(--accent-purple); }
+        .metric-value.cyan { color: var(--accent-cyan); }
+
+        .metric-change {
+            font-size: 12px;
+            color: #22c55e;
+            margin-top: 4px;
+        }
+
+        .dashboard-chart {
+            height: 120px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 16px;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            background: var(--gradient-primary);
+            border-radius: 4px 4px 0 0;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .chart-bar:hover { opacity: 1; }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--gradient-subtle);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 4vw, 42px);
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 17px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            backdrop-filter: blur(20px);
+        }
+
+        .about-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .about-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-lg);
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .about-card-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .about-card-role {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .about-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 6px 12px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            transition: border-color 180ms ease, transform 180ms ease;
         }
-        .card::after {
-            content: "";
+
+        .product-card::before {
+            content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(157,123,255,0.1), rgba(75,226,181,0.08));
+            background: var(--gradient-subtle);
             opacity: 0;
-            transition: opacity 180ms ease;
-            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
-        .card:hover { border-color: rgba(157,123,255,0.4); transform: translateY(-2px); }
-        .card:hover::after { opacity: 1; }
-        .hero-visual {
-            position: relative;
-            padding: 22px;
-            border-radius: var(--radius);
-            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0)), rgba(12,15,21,0.85);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: var(--shadow);
-            overflow: hidden;
+
+        .product-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
         }
-        .hero-visual .glow {
-            position: absolute;
-            inset: 20% 10%;
-            background: radial-gradient(circle at 50% 50%, rgba(157,123,255,0.25), transparent 50%);
-            filter: blur(40px);
-            z-index: 0;
+
+        .product-card:hover::before {
+            opacity: 1;
         }
-        .hero-visual img {
-            width: 100px;
-            height: 100px;
-            border-radius: 22px;
-            object-fit: cover;
-            border: 1px solid rgba(255,255,255,0.14);
+
+        .product-card > * {
             position: relative;
             z-index: 1;
         }
-        .hero-visual .identity { display: flex; align-items: center; gap: 16px; position: relative; z-index: 1; }
-        .hero-visual .meta { margin-top: 16px; color: var(--muted); font-size: 14px; }
-        .section-title { font-size: 24px; margin: 0 0 12px; }
-        .grid { display: grid; gap: 18px; }
-        .grid.two { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        .grid.three { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-        .feature-icon {
-            width: 32px;
-            height: 32px;
-            display: inline-flex;
+
+        .product-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-lg);
+            background: var(--gradient-primary);
+            display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.25);
         }
-        .timeline { position: relative; padding-left: 18px; }
-        .timeline::before {
-            content: "";
-            position: absolute;
-            left: 4px;
-            top: 6px;
-            bottom: 6px;
-            width: 2px;
-            background: var(--dock-line);
+
+        .product-icon svg {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+
+        .product-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .product-description {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .product-tag {
+            padding: 5px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 999px;
-            opacity: 0.8;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent-blue);
         }
-        .timeline-item { margin-bottom: 16px; position: relative; }
-        .timeline-item::before {
-            content: "";
+
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: gap 0.2s ease;
+        }
+
+        .product-link:hover {
+            gap: 12px;
+        }
+
+        .product-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Coming Soon Card */
+        .product-card.coming-soon {
+            border-style: dashed;
+            background: rgba(15, 20, 35, 0.4);
+        }
+
+        .product-card.coming-soon .product-icon {
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            box-shadow: none;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin-bottom: 16px;
+        }
+
+        /* Focus Areas */
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .focus-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .focus-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .focus-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: var(--gradient-subtle);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .focus-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent-blue);
+        }
+
+        .focus-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Philosophy Section */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .philosophy-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        .philosophy-number {
             position: absolute;
-            left: -2px;
-            top: 6px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #9d7bff, #4be2b5);
-            box-shadow: 0 0 12px rgba(157,123,255,0.4);
+            top: 24px;
+            right: 24px;
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0.3;
+            line-height: 1;
         }
-        .pill.badge-ghost { background: rgba(255,255,255,0.05); }
-        .callout { margin-top: 14px; padding: 12px 14px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.18); background: rgba(255,255,255,0.02); color: #e6d7ff; }
-        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-        .project-card img { width: 72px; height: 72px; border-radius: 18px; object-fit: cover; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); }
-        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 18px 0; }
-        .release-box { border-left: 3px solid rgba(157,123,255,0.7); padding-left: 16px; }
-        .footer { margin-top: 40px; padding: 20px; color: var(--muted); text-align: center; border-top: 1px solid rgba(255,255,255,0.08); }
-        .screenshot-placeholder { height: 200px; border-radius: var(--radius); border: 1px dashed rgba(255,255,255,0.18); background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0)); display: grid; place-items: center; color: var(--muted); }
-        .noise-overlay { position: fixed; inset: 0; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)' opacity='0.03'/%3E%3C/svg%3E"); z-index: 1; mix-blend-mode: soft-light; }
-        .section { position: relative; z-index: 2; }
-        .reveal { opacity: 0; transform: translateY(16px); transition: opacity 320ms ease, transform 320ms ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        @media (max-width: 720px) {
-            .nav { flex-wrap: wrap; }
-            nav ul { width: 100%; justify-content: flex-start; }
-            .hero { grid-template-columns: 1fr; }
+
+        .philosophy-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
+
+        .philosophy-text {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 80px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-glow);
+            opacity: 0.15;
+        }
+
+        .cta-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .cta-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 60px 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 280px;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-subtle);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid,
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .dashboard-mockup {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 12px 16px;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+                min-height: auto;
+            }
+
+            .dashboard-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .cta-card {
+                padding: 48px 24px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-            * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
-            .reveal { opacity: 1 !important; transform: none !important; }
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="noise-overlay" aria-hidden="true"></div>
+    <div class="bg-gradient"></div>
+    <div class="noise-overlay"></div>
+
     <header>
         <div class="nav">
-            <div class="brand">
-                <img src="/assets/first-app-logo.png" alt="TopMonitoring logo" onerror="this.style.opacity='0.35'; this.style.background='rgba(157,123,255,0.18)';">
+            <a href="#" class="brand">
+                <div class="brand-icon">fb</div>
                 <span>fakedevbagus</span>
-            </div>
-            <nav aria-label="Primary">
+            </a>
+            <nav>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#product">Product</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#roadmap">Roadmap</a></li>
-                    <li><a href="#docs">Docs</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#focus">Focus</a></li>
+                    <li><a href="#philosophy">Philosophy</a></li>
+                    <li><a href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer" class="nav-cta">GitHub</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="page" id="home">
-        <section class="hero section reveal" aria-labelledby="hero-title">
-            <div>
-                <div class="dock-line" aria-hidden="true"></div>
-                <p class="eyebrow">fakedevbagus.me · Windows performance craft</p>
-                <h1 id="hero-title">TopMonitoring — <span class="accent">Minimal Top Dock Monitoring for Windows</span></h1>
-                <p class="subtitle">A sleek, 24px top dock that keeps CPU, GPU, RAM, disk, network, FPS, and temps in view. Built in WPF/.NET 8, tuned for minimal distraction and instant settings.</p>
-                <div class="badge-row" aria-label="Tech and release badges">
-                    <span class="pill">v1.1.0</span>
-                    <span class="pill">WPF / .NET 8</span>
-                    <span class="pill">LibreHardwareMonitor</span>
-                    <span class="pill">Portable</span>
-                    <span class="pill">Open Source</span>
-                </div>
-                <div class="badge-row" aria-label="Primary calls to action">
-                    <a class="cta-primary" href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer">GitHub Repo</a>
-                    <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Releases</a>
-                    <a class="cta-ghost" href="#docs">Read Docs</a>
-                    <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/issues/new" target="_blank" rel="noreferrer">Report Issue</a>
-                </div>
-            </div>
-            <div class="hero-visual" role="presentation">
-                <span class="glow"></span>
-                <div class="identity">
-                    <img src="/assets/github-avatar.png" alt="fakedevbagus avatar" onerror="this.style.opacity='0.4';">
-                    <div>
-                        <p class="eyebrow">TopMonitoring v1.1.0</p>
-                        <h3 style="margin:6px 0 4px;">Focused telemetry without clutter</h3>
-                        <p class="meta">Built for creators and gamers who want a thin, always-visible dock inspired by Sidebar Diagnostics but refined for the top edge.</p>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <p class="meta">Defaults stay slim: 24px height, single-line metrics, portable config folder, and a tray icon to keep out of the way.</p>
-            </div>
-        </section>
-
-        <section id="product" class="section reveal">
-            <h2 class="section-title">Featured Product · TopMonitoring</h2>
-            <div class="grid two">
-                <article class="card">
-                    <h3 style="margin-top:0;">Product Highlights</h3>
-                    <ul style="margin: 12px 0 0 18px; color: var(--muted);">
-                        <li>24px minimal top dock with crisp typography</li>
-                        <li>Instant apply settings—no restart required</li>
-                        <li>Metric reorder and toggle visibility per user</li>
-                        <li>Rename labels to match your mental model</li>
-                        <li>Tray icon control; hide when capturing screens</li>
-                        <li>Portable config folder for sync-friendly setup</li>
-                    </ul>
-                    <div class="callout">Known limitation: Some sensors may require Administrator permissions due to hardware access rules.</div>
-                </article>
-                <article class="card">
-                    <h3 style="margin-top:0;">Release Snapshot</h3>
-                    <div class="release-box">
-                        <p><strong>v1.1.0</strong> — Stability pass, tray refinements, better GPU/CPU readings.</p>
-                        <p style="color: var(--muted);">Built with WPF/.NET 8, powered by LibreHardwareMonitor for reliable sensors.</p>
-                    </div>
-                    <div class="divider"></div>
-                    <p style="margin:0;">Planned <strong>v1.2.0</strong> (preview): richer FPS source, fan curve visibility, per-display scaling polish, smoother transitions.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="section reveal" id="showcase">
-            <h2 class="section-title">Problem → Solution</h2>
-            <div class="grid two">
-                <div class="card">
-                    <h4>Problem</h4>
-                    <p style="color: var(--muted);">Sidebar Diagnostics was my go-to, but I wanted a slim top-edge dock with less visual noise, better hot-plug resilience, and instant tweaks without relaunching.</p>
-                </div>
-                <div class="card">
-                    <h4>Solution</h4>
-                    <p style="color: var(--muted);">TopMonitoring ships a 24px strip that hugs the top of the screen. Metrics reorder on the fly, labels rename instantly, and settings save to a portable folder so the setup follows you.</p>
-                </div>
-            </div>
-            <div class="card" style="margin-top:14px;">
-                <h4>Developer journey</h4>
-                <p style="color: var(--muted);">I started with zero coding knowledge and iterated nightly, learning WPF, XAML, and LibreHardwareMonitor APIs. Each release folded user feedback into a calmer UI, better defaults, and a tray workflow that respects creators recording or streaming.</p>
-            </div>
-        </section>
-
-        <section class="section reveal" id="features">
-            <h2 class="section-title">Feature Highlights</h2>
-            <div class="grid three">
-                <div class="card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="2"></rect><path d="M7 15h10M7 19h6"></path></svg>
-                    </div>
-                    <h4>Minimal Dock</h4>
-                    <p style="color: var(--muted);">24px tall strip with precise spacing and readable metrics for any display density.</p>
-                </div>
-                <div class="card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-                    </div>
-                    <h4>Live Settings</h4>
-                    <p style="color: var(--muted);">Changes apply instantly—no app restart when toggling sensors or renaming labels.</p>
-                </div>
-                <div class="card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                    <h4>Metric Order</h4>
-                    <p style="color: var(--muted);">Reorder CPU/GPU/RAM/FPS/disk/network to fit your monitoring habits.</p>
-                </div>
-                <div class="card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h10"/><path d="M4 18h7"/></svg>
-                    </div>
-                    <h4>Theme Control</h4>
-                    <p style="color: var(--muted);">Dark-first design with light-ready palette; keeps contrast for overlays and recording.</p>
-                </div>
-                <div class="card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v4H4z"/><path d="M7 10v8"/><path d="M17 10v8"/><path d="M10 18h4"/></svg>
-                    </div>
-                    <h4>Tray Menu</h4>
-                    <p style="color: var(--muted);">Quick hide/show, refresh sensors, and exit without disturbing your layout.</p>
-                </div>
-                <div class="card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5"/><path d="M12 12v9"/><path d="M12 12L4 7.5"/></svg>
-                    </div>
-                    <h4>Portable Config</h4>
-                    <p style="color: var(--muted);">Keep settings in a portable folder so your dock feels identical across PCs.</p>
-                </div>
-                <div class="card">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>
-                    </div>
-                    <h4>Open Source Docs</h4>
-                    <p style="color: var(--muted);">Transparent roadmap, issues, and community-driven improvements on GitHub.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="section reveal" id="projects">
-            <h2 class="section-title">Projects</h2>
-            <div class="projects">
-                <article class="card project-card">
-                    <div style="display:flex; align-items:center; gap:14px;">
-                        <img src="/assets/first-app-logo.png" alt="TopMonitoring logo" onerror="this.style.opacity='0.4';">
-                        <div>
-                            <h4 style="margin:0;">TopMonitoring</h4>
-                            <p style="color: var(--muted); margin:4px 0 0;">WPF/.NET 8 top dock monitor for Windows. Built for clarity and low friction.</p>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="reveal">
+                        <div class="hero-badge">
+                            <span class="hero-badge-dot"></span>
+                            Personal Product Lab
+                        </div>
+                        <h1>Building Modern Tools for <span class="gradient-text">Real-World Systems</span></h1>
+                        <p class="hero-subtitle">Personal product lab by fakedevbagus — focused on monitoring, system tools, and experimental tech projects. Turning ideas into polished software.</p>
+                        <div class="hero-buttons">
+                            <a href="#products" class="btn btn-primary">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                                View Products
+                            </a>
+                            <a href="#focus" class="btn btn-secondary">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                                Explore Projects
+                            </a>
                         </div>
                     </div>
-                    <div class="chips">
-                        <span class="pill badge-ghost">WPF</span>
-                        <span class="pill badge-ghost">LibreHardwareMonitor</span>
-                        <span class="pill badge-ghost">Portable</span>
-                    </div>
-                    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer">View Repo</a>
-                        <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Download</a>
-                    </div>
-                </article>
-                <article class="card project-card">
-                    <div style="display:flex; align-items:center; gap:14px;">
-                        <img src="/assets/github-avatar.png" alt="fakedevbagus avatar" onerror="this.style.opacity='0.4';">
-                        <div>
-                            <h4 style="margin:0;">Open Source Journey</h4>
-                            <p style="color: var(--muted); margin:4px 0 0;">Documenting learnings from zero-to-ship: code notes, UX patterns, and sensor debugging stories.</p>
+                    <div class="reveal reveal-delay-1">
+                        <div class="dashboard-mockup">
+                            <div class="dashboard-header">
+                                <span class="dashboard-dot red"></span>
+                                <span class="dashboard-dot yellow"></span>
+                                <span class="dashboard-dot green"></span>
+                                <span class="dashboard-title">System Monitor — Live Dashboard</span>
+                            </div>
+                            <div class="dashboard-metrics">
+                                <div class="metric-card">
+                                    <div class="metric-label">CPU Usage</div>
+                                    <div class="metric-value accent">47%</div>
+                                    <div class="metric-change">↓ 12% from avg</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Memory</div>
+                                    <div class="metric-value purple">8.2 GB</div>
+                                    <div class="metric-change">51% of 16 GB</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Network</div>
+                                    <div class="metric-value cyan">142 Mb/s</div>
+                                    <div class="metric-change">↑ Active</div>
+                                </div>
+                            </div>
+                            <div class="dashboard-chart">
+                                <div class="chart-bar" style="height: 45%;"></div>
+                                <div class="chart-bar" style="height: 62%;"></div>
+                                <div class="chart-bar" style="height: 38%;"></div>
+                                <div class="chart-bar" style="height: 75%;"></div>
+                                <div class="chart-bar" style="height: 55%;"></div>
+                                <div class="chart-bar" style="height: 82%;"></div>
+                                <div class="chart-bar" style="height: 48%;"></div>
+                                <div class="chart-bar" style="height: 67%;"></div>
+                                <div class="chart-bar" style="height: 43%;"></div>
+                                <div class="chart-bar" style="height: 58%;"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="chips">
-                        <span class="pill badge-ghost">Docs</span>
-                        <span class="pill badge-ghost">Community</span>
-                        <span class="pill badge-ghost">Issues</span>
-                    </div>
-                    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <a class="cta-ghost" href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">Profile</a>
-                        <a class="cta-ghost" href="https://github.com/fakedevbagus/TopMonitoring/discussions" target="_blank" rel="noreferrer">Discussions</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section class="section reveal" id="roadmap">
-            <h2 class="section-title">Roadmap</h2>
-            <div class="grid two">
-                <div class="card timeline">
-                    <div class="timeline-item">
-                        <h4>Now</h4>
-                        <ul style="color: var(--muted); margin: 6px 0 0 18px;">
-                            <li>Sensor stability and crash-proof startup</li>
-                            <li>Tray UX polish and shortcuts</li>
-                            <li>Low overhead rendering pass</li>
-                        </ul>
-                    </div>
-                    <div class="timeline-item">
-                        <h4>Next</h4>
-                        <ul style="color: var(--muted); margin: 6px 0 0 18px;">
-                            <li>FPS source improvements for more engines</li>
-                            <li>Fan RPM visibility + warnings</li>
-                            <li>Per-display scaling refinements</li>
-                        </ul>
-                    </div>
-                    <div class="timeline-item">
-                        <h4>Future</h4>
-                        <ul style="color: var(--muted); margin: 6px 0 0 18px;">
-                            <li>Sensor expansion (VRAM, hotspot temps)</li>
-                            <li>Profiles for creator vs gaming layouts</li>
-                            <li>Optional telemetry export hooks</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card" id="docs">
-                    <h4>Docs & Changelog</h4>
-                    <p style="color: var(--muted);">Readme covers install, settings, and sensor notes. Releases detail fixes and pitfalls with hardware sensors.</p>
-                    <div class="chips">
-                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring#readme" target="_blank" rel="noreferrer">Docs</a>
-                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Changelog</a>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="screenshot-placeholder">Screenshots / demo video placeholder</div>
                 </div>
             </div>
         </section>
 
-        <section class="section reveal" id="community">
-            <h2 class="section-title">Open Source & Community</h2>
-            <div class="grid two">
-                <div class="card">
-                    <h4>Contribute</h4>
-                    <p style="color: var(--muted);">Issues and discussions are open. Reproduce a bug, request sensors, or propose UI polish. Every insight makes the dock calmer.</p>
-                    <div class="chips">
-                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/issues" target="_blank" rel="noreferrer">Issues</a>
-                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/discussions" target="_blank" rel="noreferrer">Discussions</a>
-                        <a class="pill" href="https://github.com/fakedevbagus/TopMonitoring/pulls" target="_blank" rel="noreferrer">Pull Requests</a>
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text reveal">
+                        <div class="section-badge">About</div>
+                        <h2>About fakedevbagus</h2>
+                        <p>This is a personal tech lab where I build monitoring tools, system applications, and experimental projects. Every project here is driven by curiosity and a desire to solve real problems.</p>
+                        <p>From performance monitoring dashboards to backend utilities, I focus on creating tools that are practical, well-designed, and open source. Some projects are polished products, others are college experiments — all are learning experiences.</p>
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">5+</div>
+                                <div class="stat-label">Projects</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">100%</div>
+                                <div class="stat-label">Open Source</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">∞</div>
+                                <div class="stat-label">Learning</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-visual reveal reveal-delay-1">
+                        <div class="about-card">
+                            <div class="about-card-header">
+                                <div class="about-avatar">fb</div>
+                                <div>
+                                    <div class="about-card-name">fakedevbagus</div>
+                                    <div class="about-card-role">Independent Developer</div>
+                                </div>
+                            </div>
+                            <div class="about-card-tags">
+                                <span class="tag">System Tools</span>
+                                <span class="tag">Monitoring</span>
+                                <span class="tag">.NET / C#</span>
+                                <span class="tag">WPF</span>
+                                <span class="tag">Backend</span>
+                                <span class="tag">Open Source</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card">
-                    <h4>Principles</h4>
-                    <p style="color: var(--muted);">Minimal footprint, reliable sensors, instant feedback, respectful defaults for creators recording screens.</p>
-                    <p style="color: var(--muted);">If you spot a hardware edge case, open an issue with logs so we can harden the next build.</p>
+            </div>
+        </section>
+
+        <!-- Products & Projects Section -->
+        <section id="products">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-badge">Portfolio</div>
+                    <h2 class="section-title">Products & Projects</h2>
+                    <p class="section-subtitle">A collection of tools, applications, and experiments built with passion for systems and performance.</p>
+                </div>
+                <div class="products-grid">
+                    <!-- TopMonitoring -->
+                    <div class="product-card reveal">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        </div>
+                        <h3 class="product-name">TopMonitoring</h3>
+                        <p class="product-description">Real-time monitoring tool for systems and infrastructure metrics. A minimal 24px top dock that displays CPU, GPU, RAM, disk, and network stats — built with WPF/.NET 8.</p>
+                        <div class="product-tags">
+                            <span class="product-tag">Monitoring</span>
+                            <span class="product-tag">Systems</span>
+                            <span class="product-tag">.NET 8</span>
+                            <span class="product-tag">WPF</span>
+                        </div>
+                        <a href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer" class="product-link">
+                            View Project
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
+
+                    <!-- Coming Soon Card -->
+                    <div class="product-card coming-soon reveal reveal-delay-1">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        </div>
+                        <span class="coming-soon-badge">Coming Soon</span>
+                        <h3 class="product-name">More Projects</h3>
+                        <p class="product-description">New tools and experiments are always in development. Check back for upcoming projects in networking, data visualization, and developer utilities.</p>
+                        <div class="product-tags">
+                            <span class="product-tag">Backend</span>
+                            <span class="product-tag">DevTools</span>
+                            <span class="product-tag">Experiments</span>
+                        </div>
+                        <a href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer" class="product-link">
+                            Follow Progress
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section reveal" id="contact">
-            <h2 class="section-title">Contact</h2>
-            <div class="card">
-                <p style="margin:0;">Let's talk sensors, UI, or Windows telemetry UX.</p>
-                <div class="chips">
-                    <a class="pill" href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">GitHub</a>
-                    <a class="pill" href="mailto:hello@fakedevbagus.me">Email</a>
+        <!-- Focus Areas Section -->
+        <section id="focus">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-badge">Expertise</div>
+                    <h2 class="section-title">Focus Areas</h2>
+                    <p class="section-subtitle">Core domains and technologies that drive my projects and experiments.</p>
+                </div>
+                <div class="focus-grid">
+                    <div class="focus-card reveal">
+                        <div class="focus-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        </div>
+                        <div class="focus-title">System Monitoring</div>
+                    </div>
+                    <div class="focus-card reveal reveal-delay-1">
+                        <div class="focus-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                        </div>
+                        <div class="focus-title">Network & Infrastructure</div>
+                    </div>
+                    <div class="focus-card reveal reveal-delay-2">
+                        <div class="focus-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        </div>
+                        <div class="focus-title">Data Visualization</div>
+                    </div>
+                    <div class="focus-card reveal reveal-delay-3">
+                        <div class="focus-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </div>
+                        <div class="focus-title">Backend Engineering</div>
+                    </div>
+                    <div class="focus-card reveal reveal-delay-3">
+                        <div class="focus-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                        </div>
+                        <div class="focus-title">Developer Tools</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <footer class="footer">
-            © 2026 fakedevbagus
-        </footer>
+        <!-- Philosophy Section -->
+        <section id="philosophy">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-badge">Approach</div>
+                    <h2 class="section-title">How I Build</h2>
+                    <p class="section-subtitle">The principles that guide every project from concept to release.</p>
+                </div>
+                <div class="philosophy-grid">
+                    <div class="philosophy-card reveal">
+                        <span class="philosophy-number">01</span>
+                        <h3 class="philosophy-title">Build to Learn</h3>
+                        <p class="philosophy-text">Every project is an opportunity to explore new technologies, patterns, and problem domains. The best way to understand something is to build it.</p>
+                    </div>
+                    <div class="philosophy-card reveal reveal-delay-1">
+                        <span class="philosophy-number">02</span>
+                        <h3 class="philosophy-title">Performance First</h3>
+                        <p class="philosophy-text">Tools should be fast, responsive, and lightweight. I optimize for minimal resource usage while maintaining full functionality.</p>
+                    </div>
+                    <div class="philosophy-card reveal reveal-delay-2">
+                        <span class="philosophy-number">03</span>
+                        <h3 class="philosophy-title">Real-World Inspired</h3>
+                        <p class="philosophy-text">Projects stem from actual needs — whether it's monitoring my own systems or solving problems encountered in daily development work.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-card reveal">
+                    <h2 class="cta-title">Interested in my work?</h2>
+                    <p class="cta-subtitle">Check out my projects on GitHub or reach out if you'd like to collaborate on something interesting.</p>
+                    <div class="cta-buttons">
+                        <a href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer" class="btn btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            View GitHub
+                        </a>
+                        <a href="mailto:hello@fakedevbagus.me" class="btn btn-secondary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">
+                        <div class="brand-icon">fb</div>
+                        <span>fakedevbagus</span>
+                    </div>
+                    <p class="footer-description">Personal product lab showcasing monitoring tools, system applications, and experimental tech projects. Building for learning, performance, and real-world impact.</p>
+                    <div class="footer-social" style="margin-top: 20px;">
+                        <a href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer" class="social-link" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="social-link" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-title">Products</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/fakedevbagus/TopMonitoring" target="_blank" rel="noreferrer">TopMonitoring</a></li>
+                        <li><a href="https://github.com/fakedevbagus/TopMonitoring/releases" target="_blank" rel="noreferrer">Releases</a></li>
+                        <li><a href="https://github.com/fakedevbagus/TopMonitoring#readme" target="_blank" rel="noreferrer">Documentation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">GitHub Profile</a></li>
+                        <li><a href="https://github.com/fakedevbagus/TopMonitoring/discussions" target="_blank" rel="noreferrer">Discussions</a></li>
+                        <li><a href="https://github.com/fakedevbagus/TopMonitoring/issues" target="_blank" rel="noreferrer">Report Issues</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:hello@fakedevbagus.me">Email</a></li>
+                        <li><a href="https://github.com/fakedevbagus" target="_blank" rel="noreferrer">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 fakedevbagus. All rights reserved.</p>
+                <p>Built with passion for systems and performance.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver(entries => {
+        // Reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.2 });
-        reveals.forEach(el => observer.observe(el));
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

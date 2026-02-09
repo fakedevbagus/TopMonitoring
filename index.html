@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="fakedevbagus — Personal product lab building monitoring tools, system apps, and experimental tech projects.">
+    <meta name="description" content="fakedevbagus — Personal product lab building monitoring tools, system applications, and modern media utilities like UniviDown.">
     <meta name="keywords" content="fakedevbagus, TopMonitoring, monitoring tools, system apps, developer portfolio, open source">
     <meta property="og:title" content="fakedevbagus — Building Modern Tools for Real-World Systems">
     <meta property="og:description" content="Personal product lab focused on monitoring, system tools, and experimental tech projects.">
@@ -643,6 +643,18 @@
             color: var(--accent-blue);
         }
 
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg,#00f5a0,#00d9f5);
+            color: #000;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+
         .product-link {
             display: inline-flex;
             align-items: center;
@@ -924,6 +936,65 @@
             color: var(--text-muted);
         }
 
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #111;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 90%;
+            color: #fff;
+            animation: fadeIn 0.3s ease;
+            position: relative;
+        }
+
+        .modal-gallery {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-links {
+            margin-top: 20px;
+        }
+
+        .modal-links a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0; transform:scale(0.95);}
+            to {opacity:1; transform:scale(1);}
+        }
+
         /* Animations */
         .reveal {
             opacity: 0;
@@ -1054,7 +1125,7 @@
                             Personal Product Lab
                         </div>
                         <h1>Building Modern Tools for <span class="gradient-text">Real-World Systems</span></h1>
-                        <p class="hero-subtitle">Personal product lab by fakedevbagus — focused on monitoring, system tools, and experimental tech projects. Turning ideas into polished software.</p>
+                        <p class="hero-subtitle">Personal product lab by fakedevbagus — focused on monitoring tools, system applications, and modern media utilities. Turning ideas into polished software.</p>
                         <div class="hero-buttons">
                             <a href="#products" class="btn btn-primary">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
@@ -1180,6 +1251,31 @@
                             View Project
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
+                    </div>
+
+                    <div class="product-card reveal reveal-delay-1" onclick="openUniviDownModal()">
+                        <span class="product-badge">NEW</span>
+                        <img src="/assets/unividown-logo.png" alt="UniviDown" class="product-logo">
+                        <h3 class="product-name">UniviDown</h3>
+                        <p class="product-description">
+                            Universal media downloader built with Node.js, yt-dlp, and FFmpeg.
+                            Supports multi-platform video & audio downloads, smart resolution detection,
+                            high-quality formats like FLAC, and a dynamic modern UI.
+                        </p>
+                        <div class="product-tags">
+                            <span class="product-tag">Downloader</span>
+                            <span class="product-tag">Node.js</span>
+                            <span class="product-tag">FFmpeg</span>
+                            <span class="product-tag">yt-dlp</span>
+                            <span class="product-tag">Desktop App</span>
+                        </div>
+                        <span class="product-link">
+                            View Details
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </span>
                     </div>
 
                     <!-- Coming Soon Card -->
@@ -1342,6 +1438,26 @@
         </div>
     </footer>
 
+    <div id="unividown-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeUniviDownModal()">&times;</span>
+            <h2>UniviDown — Universal Media Downloader</h2>
+            <p>
+                UniviDown is a powerful cross-platform media downloader supporting high-quality audio,
+                smart resolution detection, playlist merging, and dynamic UI themes.
+            </p>
+
+            <div class="modal-gallery">
+                <img src="/assets/unividown-1.png" alt="UniviDown UI">
+                <img src="/assets/unividown-2.png" alt="Download Progress">
+            </div>
+
+            <div class="modal-links">
+                <a href="https://github.com/fakedevbagus/unividown" target="_blank" rel="noreferrer">View on GitHub</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Reveal animations on scroll
         const observerOptions = {
@@ -1359,6 +1475,22 @@
         }, observerOptions);
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function openUniviDownModal() {
+            document.getElementById('unividown-modal').style.display = 'flex';
+        }
+
+        function closeUniviDownModal() {
+            document.getElementById('unividown-modal').style.display = 'none';
+        }
+
+        window.openUniviDownModal = openUniviDownModal;
+        window.closeUniviDownModal = closeUniviDownModal;
+
+        window.onclick = function(e) {
+            const modal = document.getElementById('unividown-modal');
+            if (e.target === modal) closeUniviDownModal();
+        };
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

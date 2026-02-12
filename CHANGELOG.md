@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2024-01-17
 
+## v1.x.x
+
+### Fixed
+- Fixed Settings window crash
+- Removed broken ComboBox template
+- Improved preset UX logic
+- Prevented automatic Custom overwrite
+- Added safer exit handling
+- Improved dark theme consistency
+
 ### Added
 - Initial release of Top Monitoring
 - Real-time hardware metrics overlay (CPU, GPU, RAM, VRAM, Disk, Network)

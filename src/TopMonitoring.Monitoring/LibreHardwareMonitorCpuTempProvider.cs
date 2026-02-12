@@ -11,7 +11,7 @@ namespace TopMonitoring.Monitoring
     {
         public string Id => "cpu-temp";
         public MetricCategory Category => MetricCategory.CPU;
-        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(1000);
+        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(2000);
 
         private readonly Computer _computer;
         private IHardware? _cpu;
@@ -28,12 +28,18 @@ namespace TopMonitoring.Monitoring
             try
             {
                 _cpu?.Update();
+                // CPU Package temperature is used for consistency across platforms.
                 var temp = _cpu?.Sensors
-                    .Where(s => s.SensorType == SensorType.Temperature)
-                    .OrderByDescending(s => s.Name.Contains("Package", StringComparison.OrdinalIgnoreCase))
-                    .FirstOrDefault();
+                    .FirstOrDefault(s => s.SensorType == SensorType.Temperature
+                                         && s.Name.Contains("Package", StringComparison.OrdinalIgnoreCase));
+
+                temp ??= _cpu?.Sensors
+                    .FirstOrDefault(s => s.SensorType == SensorType.Temperature);
 
                 var val = temp?.Value;
+                if (!val.HasValue)
+                    return ValueTask.FromResult<MetricSnapshot?>(new MetricSnapshot(Id, Category, DateTime.UtcNow, null, null));
+
                 return ValueTask.FromResult<MetricSnapshot?>(new MetricSnapshot(Id, Category, DateTime.UtcNow, val, temp?.Name));
             }
             catch (Exception ex)

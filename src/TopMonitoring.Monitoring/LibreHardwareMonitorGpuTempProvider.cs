@@ -11,7 +11,7 @@ namespace TopMonitoring.Monitoring
     {
         public string Id => "gpu-temp";
         public MetricCategory Category => MetricCategory.GPU;
-        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(1000);
+        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(2000);
 
         private readonly Computer _computer;
         private IHardware? _gpu;

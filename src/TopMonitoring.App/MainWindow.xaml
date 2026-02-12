@@ -5,24 +5,44 @@
         Topmost="True" WindowStyle="None" ResizeMode="NoResize"
         AllowsTransparency="True" Background="Transparent"
         ShowInTaskbar="False">
-    <Border x:Name="RootBorder" CornerRadius="0" Padding="4,1" SnapsToDevicePixels="True">
-        <!-- DownOnly ensures text is only shrunk when needed, never enlarged -->
-        <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel x:Name="MetricsPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock x:Name="FpsText"  Text="FPS --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="CpuLoadText" Text="CPU --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="CpuTempText" Text="CT --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="CpuPowerText" Text="CPW --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="GpuLoadText" Text="GPU --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="GpuTempText" Text="GT --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="GpuPowerText" Text="GPW --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="VramUsedText" Text="VRAM --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="RamUsedText" Text="RAM --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="RamFreeText" Text="FREE --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="DriveCText" Text="C --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="DriveEText" Text="E --" FontSize="11" Margin="4,0" Foreground="White"/>
-                <TextBlock x:Name="InternetText" Text="NET --" FontSize="11" Margin="4,0" Foreground="White"/>
-            </StackPanel>
-        </Viewbox>
-    </Border>
+    <Grid x:Name="RootGrid" Background="Transparent" MouseRightButtonUp="OnRightClick">
+        <Grid.ContextMenu>
+            <ContextMenu x:Name="SettingsContextMenu" StaysOpen="False" Placement="MousePoint">
+                <MenuItem Header="Settings..." Click="SettingsMenu_Click"/>
+                <Separator/>
+                <MenuItem Header="Show" Click="ShowMenu_Click"/>
+                <MenuItem Header="Hide" Click="HideMenu_Click"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="ExitMenu_Click"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <Border x:Name="RootBorder" CornerRadius="0" Padding="4,1" SnapsToDevicePixels="True" Background="Transparent">
+            <!-- DownOnly ensures text is only shrunk when needed, never enlarged -->
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ItemsControl x:Name="MetricsPanel" ItemsSource="{Binding Metrics}" IsHitTestVisible="False">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Text}" FontSize="11" Margin="4,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{DynamicResource OverlayTextBrush}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsAlert}" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource OverlayWarningBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Viewbox>
+        </Border>
+    </Grid>
 </Window>

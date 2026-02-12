@@ -15,7 +15,7 @@ namespace TopMonitoring.Monitoring
     {
         public string Id => "cpu-total-load";
         public MetricCategory Category => MetricCategory.CPU;
-        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(500);
+        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(1000);
 
         private readonly Computer _computer;
         private IHardware? _cpu;

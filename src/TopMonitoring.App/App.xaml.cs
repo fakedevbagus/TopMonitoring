@@ -5,15 +5,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Threading.Tasks;
+using TopMonitoring.Infrastructure;
 
 namespace TopMonitoring.App
 {
     public partial class App : System.Windows.Application
     {
         public static IHost? Host { get; private set; }
+        private static System.Threading.Mutex? _singleInstanceMutex;
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            _singleInstanceMutex = new System.Threading.Mutex(true, "TopMonitoring.SingleInstance", out var createdNew);
+            if (!createdNew)
+            {
+                Shutdown();
+                return;
+            }
+
             var logDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TopMonitoring", "logs");
             Directory.CreateDirectory(logDir);
 
@@ -44,6 +53,8 @@ namespace TopMonitoring.App
                 .UseSerilog()
                 .ConfigureServices(services =>
                 {
+                    services.AddSingleton<SettingsService>();
+                    services.AddSingleton<MonitoringService>();
                     services.AddSingleton<MainWindow>();
                 })
                 .Build();
@@ -68,6 +79,12 @@ namespace TopMonitoring.App
             finally
             {
                 Log.CloseAndFlush();
+                try
+                {
+                    _singleInstanceMutex?.ReleaseMutex();
+                    _singleInstanceMutex?.Dispose();
+                }
+                catch { }
             }
 
             base.OnExit(e);

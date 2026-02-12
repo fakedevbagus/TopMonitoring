@@ -13,13 +13,16 @@ namespace TopMonitoring.Monitoring
         private readonly string _id;
         public DriveFreeMetricProvider(string driveLetter)
         {
-            _drive = driveLetter.EndsWith(":") ? driveLetter + "\\" : driveLetter;
-            _id = driveLetter.ToLowerInvariant().Contains("c") ? "drive-c" : "drive-e";
+            var trimmed = driveLetter?.Trim() ?? "C";
+            var letter = trimmed.TrimEnd(':', '\\').FirstOrDefault();
+            var idLetter = char.IsLetter(letter) ? char.ToLowerInvariant(letter) : 'c';
+            _drive = $"{char.ToUpperInvariant(idLetter)}:\\";
+            _id = $"drive-{idLetter}";
         }
 
         public string Id => _id;
         public MetricCategory Category => MetricCategory.Disk;
-        public TimeSpan PollInterval { get; init; } = TimeSpan.FromSeconds(5);
+        public TimeSpan PollInterval { get; init; } = TimeSpan.FromSeconds(3);
 
         public ValueTask<MetricSnapshot?> PollAsync(CancellationToken ct)
         {

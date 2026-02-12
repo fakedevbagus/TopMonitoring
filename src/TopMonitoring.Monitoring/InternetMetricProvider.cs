@@ -11,7 +11,7 @@ namespace TopMonitoring.Monitoring
     {
         public string Id => "internet";
         public MetricCategory Category => MetricCategory.Network;
-        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(1000);
+        public TimeSpan PollInterval { get; init; } = TimeSpan.FromMilliseconds(2000);
 
         private string? _instance;
         private PerformanceCounter? _down;
@@ -25,14 +25,14 @@ namespace TopMonitoring.Monitoring
                 if (_instance == null || _reselectTick++ % 10 == 0)
                     SelectBestInterface();
 
-                double? downB = PerformanceCounterHelpers.SafeNextValue(_down);
-                double? upB = PerformanceCounterHelpers.SafeNextValue(_up);
+                double? downB = _down != null ? PerformanceCounterHelpers.SafeNextValue(_down) : null;
+                double? upB = _up != null ? PerformanceCounterHelpers.SafeNextValue(_up) : null;
 
                 if (_instance != null && downB.GetValueOrDefault() == 0 && upB.GetValueOrDefault() == 0)
                 {
                     SelectBestInterface();
-                    downB = PerformanceCounterHelpers.SafeNextValue(_down);
-                    upB = PerformanceCounterHelpers.SafeNextValue(_up);
+                    downB = _down != null ? PerformanceCounterHelpers.SafeNextValue(_down) : null;
+                    upB = _up != null ? PerformanceCounterHelpers.SafeNextValue(_up) : null;
                 }
 
                 var raw = $"↓{Format(downB)} ↑{Format(upB)}";

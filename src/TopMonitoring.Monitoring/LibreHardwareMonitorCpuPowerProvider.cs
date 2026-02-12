@@ -37,7 +37,7 @@ namespace TopMonitoring.Monitoring
                 var raw = val.HasValue ? $"{val.Value:F0}W" : "N/A";
                 return ValueTask.FromResult<MetricSnapshot?>(new MetricSnapshot(Id, Category, DateTime.UtcNow, val, raw));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return ValueTask.FromResult<MetricSnapshot?>(new MetricSnapshot(Id, Category, DateTime.UtcNow, null, $"N/A"));
             }

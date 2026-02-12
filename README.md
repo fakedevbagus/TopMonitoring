@@ -1,160 +1,111 @@
-# Top Monitoring
+# TopMonitoring
 
-[![GitHub Release](https://img.shields.io/github/v/release/fakedevbagus/TopMonitoring?style=flat-square&color=9d7bff)](https://github.com/fakedevbagus/TopMonitoring/releases)
-[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/fakedevbagus/TopMonitoring?style=flat-square)](https://github.com/fakedevbagus/TopMonitoring)
-[![Platform](https://img.shields.io/badge/platform-Windows-0078d4?style=flat-square)]()
+[![Build Status](https://img.shields.io/badge/build-passing-lightgrey?style=flat-square)](#)
 [![.NET Version](https://img.shields.io/badge/.NET-8.0-512bd4?style=flat-square)](https://dotnet.microsoft.com)
-[![WPF](https://img.shields.io/badge/UI-WPF-512bd4?style=flat-square)]()
+[![Windows](https://img.shields.io/badge/Windows-10%2F11-0078d4?style=flat-square)](#)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
-**TopMonitoring** is a lightweight Windows top-bar overlay to display real-time hardware metrics (CPU/GPU/RAM/VRAM/Disk/Network) using **LibreHardwareMonitor** + **WPF**.
-
-Designed for minimal distraction: always-on-top, compact, customizable, and fast.
-
-> Repo: https://github.com/fakedevbagus/TopMonitoring
+**TopMonitoring** is a lightweight Windows overlay that displays real-time system metrics in a compact top bar. It is optimized for stability, low CPU usage, and minimal distraction.
 
 ---
 
-## ✨ Features
-
-### Overlay / Dock
-- **Always-on-top top dock** (overlay)
-- Transparent dock background support
-- **Fixed metric order** (MSI Afterburner-style layout)
-- Metric value alignment centered (clean look)
-- Auto N/A fallback when metric not available
-
-### Metrics (Real-time)
-- FPS *(depends on source / limitations explained below)*
-- CPU Load / Temp / Power
-- GPU Load / Temp / Power *(GPU power depends on hardware/driver)*
-- VRAM Used
-- RAM Used / RAM Free
-- Disk usage
-- Network (Down/Up)
-
-### Settings
-- **Dark/Light mode toggle**
-- Background live picker color + **HEX input** (custom color)
-- Opacity slider with percentage indicator
-- Metric label renaming (prefix text)
-- **Enable/Disable metrics (realtime + autosaved)**
-- Metric order editor (Up/Down reorder)
-
-### Quality
-- Stable, optimized update loop
-- Autosave settings (no “Save” button needed)
-- Safe fallback: missing sensor = `N/A`
+## Overview
+- Real-time CPU/GPU/RAM/VRAM/Disk/Network monitoring
+- Compact always-on-top overlay for gaming or productivity
+- Designed for stability, low overhead, and safe UI updates
 
 ---
 
-## 📸 Screenshots
-
--docs/screenshot
+## Features
+- Real-time CPU/GPU/RAM monitoring
+- CPU Package temperature support
+- Preset system: **Gaming**, **Work**, **Minimal**, **Custom**
+- Dark & Light theme switching (safe DynamicResource usage)
+- Click-through mode for unobstructed input
+- Multi-monitor docking and target selection
+- Alert thresholds with optional blink
+- Settings export/import
+- Global hotkeys
 
 ---
 
-## ✅ Requirements
-- Windows 10/11
-- .NET SDK 8 (for building from source)
-- LibreHardwareMonitor (already included as dependency)
+## Preset Behavior
+- Built-in presets can be previewed safely.
+- **Custom** preset activates only when the user edits settings manually.
+- Presets do **not** automatically overwrite the user’s custom layout.
 
 ---
 
-## 🚀 Build & Run (Developer)
+## Theme System
+- Uses **DynamicResource** brushes for all UI colors.
+- No ControlTemplate overrides for ComboBox.
+- Dark & Light resource dictionaries are kept in sync.
 
-### 1) Clone
-```bash
-git clone https://github.com/fakedevbagus/TopMonitoring.git
-cd TopMonitoring
-```
+---
 
-### 2) Restore & Build
+## Performance Notes
+- Fast vs. slow polling based on preset update interval.
+- Delta filtering reduces unnecessary UI updates.
+- Low CPU overhead and stable rendering loop.
+
+---
+
+## Known Limitations
+- Some sensors require admin privileges.
+- FPS accuracy depends on integration method.
+- Hardware support varies by device and driver.
+
+---
+
+## Troubleshooting
+- **Settings window not opening:** check the “SETTINGS ERROR” dialog for details.
+- **ComboBox styling issues:** avoid custom ControlTemplate overrides.
+- **Click-through blocking interaction:** toggle click-through hotkey or disable it in settings.
+- **Corrupted settings file:** delete the settings JSON to regenerate defaults.
+
+---
+
+## Build & Run
 ```bash
 dotnet restore
 dotnet build -c Release
-```
-
-### 3) Run
-```bash
 dotnet run --project src/TopMonitoring.App -c Release
-
-or download stable release zip extract and run TopMonitoring.exe (portable)
 ```
 
 ---
 
-## ⚙️ Configuration / Settings
-All settings are saved automatically (no manual save).
+## Development Notes
+### Architecture
+- **App layer:** UI, overlay, window lifecycle, and input handling.
+- **Monitoring layer:** metric providers and polling engine.
+- **Infrastructure layer:** settings, presets, and persistence.
 
-Settings include:
-- Theme (Dark/Light)
-- Opacity
-- Background live picker color + HEX
-- Metric Labels (prefix)
-- Enabled metrics
-- Metric order
+### Preset Logic
+- Presets apply for preview without forcing **Custom**.
+- **Custom** activates only on manual user edits.
 
----
+### Theme Rules
+- Keep all brushes in DarkTheme and LightTheme.
+- Use DynamicResource for all UI colors.
 
-## 🧠 Notes / Limitations (Important)
+### ComboBox Styling
+- Do not override ControlTemplate.
+- Only set brushes and item styling.
 
-### FPS
-FPS is **not always reliable** because Windows does not provide a universal system-wide FPS counter by default.
-For accurate FPS like MSI Afterburner/RivaTuner, a dedicated overlay/hook method is required.
+### SettingsWindow Safety
+- Heavy initialization runs in Loaded event.
+- Exceptions are surfaced via MessageBox.
 
-### GPU Power
-GPU Power read depends on:
-- GPU model
-- driver support
-- exposed sensors from LibreHardwareMonitor
-
-Some GPUs may return N/A.
-
----
-
-## ✅ Advantages
-- Lightweight WPF overlay
-- Clean centered UI layout
-- Fully customizable labels and ordering
-- Real-time enable/disable metrics
-- Dark/Light theme support
-- Autosave settings
-
-## ⚠️ Known Drawbacks
-- FPS accuracy depends on source availability
-- Some GPU metrics depend on vendor sensor availability
-- Only built for Windows (WPF)
-- Fix bug when exit app need restart on taskbar to normalize window fullscreen
+### Disposal & Lifecycle
+- Unsubscribe from SystemEvents.
+- Dispose timers, hotkeys, and monitoring services on shutdown.
 
 ---
 
-## 🛠 Roadmap
-Planned improvements:
-- Better FPS support (optional plugin / overlay integration)
-- Multi-monitor docking and edge snapping
-- Presets (Gaming / Work / Minimal)
-- Click-through mode
+## License
+MIT License. See [LICENSE](LICENSE).
 
----
-
-## 🤝 Contributing
-PRs and issues are welcome.
-Please:
-- use clear PR title
-- include screenshots for UI changes
-- keep code style consistent
-
-See: [CONTRIBUTING.md](CONTRIBUTING.md)
-
----
-
-## 📄 License
-MIT License — free to use, modify, and distribute.
-
-See: [LICENSE](LICENSE)
-
-## 📋 Additional Information
+## Links
 - [Changelog](CHANGELOG.md)
 - [Code of Conduct](CODE_OF_CONDUCT.MD)
 - [Security Policy](SECURITY.MD)

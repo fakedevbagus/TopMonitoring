@@ -1,9 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CpuMetricProvider.cs" />
+    <Compile Remove="CpuPowerMetricProvider.cs" />
+    <Compile Remove="GpuPowerMetricProvider.cs" />
+    <Compile Remove="VramUsedMetricProvider.cs" />
+    <Compile Remove="DiskFreeMetricProvider.cs" />
+    <Compile Remove="DiskIOMetricProvider.cs" />
+    <Compile Remove="NetworkMetricProvider.cs" />
+    <Compile Remove="LibreHardwareMonitorFanRpmProvider.cs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
     <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.2" />

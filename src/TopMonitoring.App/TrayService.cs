@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Reflection;
 
 namespace TopMonitoring.App
 {
@@ -20,7 +19,7 @@ namespace TopMonitoring.App
             _icon = new NotifyIcon
             {
                 Text = "TopMonitoring",
-                Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location),
+                Icon = Icon.ExtractAssociatedIcon(System.IO.Path.Combine(AppContext.BaseDirectory, "TopMonitoring.exe")),
                 Visible = true
             };
 

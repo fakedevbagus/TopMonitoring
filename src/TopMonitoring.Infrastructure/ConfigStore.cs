@@ -9,8 +9,7 @@ namespace TopMonitoring.Infrastructure
     public static class ConfigStore
     {
         private static readonly string Path = System.IO.Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "TopMonitoring", "config.json");
+            AppContext.BaseDirectory, "settings.json");
 
         private static readonly JsonSerializerOptions Opts = new() { WriteIndented = true };
         private static readonly SemaphoreSlim IoLock = new(1, 1);
